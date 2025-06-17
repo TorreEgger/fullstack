@@ -1,10 +1,34 @@
 import { useState } from 'react'
 
 
+const StatisticLine = (props) => {
+  if (props.text != 'positive') { // inspiroitu ehdollisesta renderöinnistä
+  return (
+    <div>
+      <p>
+        {props.text} {props.value}
+      </p>
+    </div>
+  )
+  }
+
+  return (
+    <div>
+      <p>
+        {props.text} {props.value} %
+      </p>
+    </div>
+  )
+}
+
+
+
+// samanlainen kuin materiaalissa
+const Button = ({ onClick, text}) => <button onClick={onClick}>{text}</button>
 
 
 const Statistics = (props) => {
-  if (props.total === 0) {
+  if (props.total === 0) { // ehdollinen renderöinti kuten materiaalissa
   return (
     <div>
       <p>no feedback given</p>
@@ -15,18 +39,16 @@ const Statistics = (props) => {
   return (
     <div>
       <h2>statistics</h2>
-      <p>good {props.good}</p>
-      <p>neutral {props.neutral}</p>
-      <p>bad {props.bad}</p>
-      <p>all {props.total}</p>
-      <p>average {(props.good - props.bad)/props.total}</p>
-      <p>positive {(props.good/props.total)*100} %</p>
+      <StatisticLine text="good" value={props.good} />
+      <StatisticLine text="neutral" value={props.neutral} />
+      <StatisticLine text="bad" value={props.bad} />
+      <StatisticLine text="all" value={props.total} />
+      <StatisticLine text="average" value={(props.good - props.bad)/props.total} />
+      <StatisticLine text="positive" value={(props.good/props.total)*100} />
     </div>
   )
 
 }
-
-
 
 
 const App = () => {
@@ -39,9 +61,6 @@ const App = () => {
   // kuin renderöinnin yhteydessä laskeminen
   const [total, setTotal] = useState(0)
   
-
-
-
 
   const handleGoodClick = () => {
     const uusiMaara = good + 1
@@ -62,20 +81,19 @@ const App = () => {
   }
 
 
-
-
   return (
     <div>
       <h1>give feedback</h1>
 
-      <button onClick={handleGoodClick}>good</button>
-      <button onClick={handleNeutralClick}>neutral</button>
-      <button onClick={handleBadClick}>bad</button>
+      <Button onClick={handleGoodClick} text='good' />
+      <Button onClick={handleNeutralClick} text='neutral' />
+      <Button onClick={handleBadClick} text='bad' />
 
       <Statistics good={good} neutral={neutral} bad={bad} total={total} />
 
     </div>
   )
 }
+
 
 export default App
