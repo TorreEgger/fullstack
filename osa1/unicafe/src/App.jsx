@@ -1,23 +1,41 @@
 import { useState } from 'react'
 
 
+// matkan varrella oli liian vähän elementtejä taulukon luonnissa
+// ja sen takia virheilmoitus hieman poikkesi materiaalissa olevasta
+// materiaalissa olleessa virheilmoituksessa ollut tr-elementti vahvisti että sen tarvitsee ja lukemalla lopuksi ymmärsi sen merkityksen
+// tr-elememtin lisääminen toi tarvittavan lopun kun konsoli ehdotti sitten tbodya yms. laitettavaksi. samantapaisesti kuin
+// materiaalissakin
+
+// jatkossa täytyy olla rauhallisempi ja lukea tarkemmin annetut materiaalit
+
+
 const StatisticLine = (props) => {
   if (props.text != 'positive') { // inspiroitu ehdollisesta renderöinnistä
   return (
-    <div>
-      <p>
-        {props.text} {props.value}
-      </p>
-    </div>
+    <table>
+      <tbody>
+      <tr>
+        <td>
+          {props.text} {props.value}
+        </td>
+      </tr>
+      </tbody>
+    </table>
   )
   }
 
   return (
-    <div>
-      <p>
-        {props.text} {props.value} %
-      </p>
-    </div>
+    <table>
+      <tbody>
+      <tr>
+        <td>
+          {props.text} {props.value} %
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
   )
 }
 
