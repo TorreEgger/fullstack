@@ -15,20 +15,40 @@ const App = () => {
   const [selected, setSelected] = useState(0)
 
 
+  const votes = new Uint8Array(8)
+
+
+  let copy = [...votes]
+
+
+
+
+
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 //täältä katsottu miten satunnaislukuja generoidaan
 
 
-  const handleClick = () => {
+  const handleShuffle = () => {
     let valinta = 0
     valinta = Math.floor(Math.random() * 8) 
     setSelected(valinta)
   }
 
+  const handleVotes = () => {
+    console.log('nykyinen paikka on', selected)
+    console.log(copy)
+    copy[selected] += 1
+   // console.log(copy)
+  }
+
+
+
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-      <button onClick={handleClick}>next anecdote</button>
+      <p>has  {copy[0]} votes</p>
+      <button onClick={handleVotes}>vote</button>
+      <button onClick={handleShuffle}>next anecdote</button>
     </div>
   )
 }
