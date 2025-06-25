@@ -14,11 +14,11 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
 
+  const [vote, setVote] = useState(new Uint8Array(8))
 
-  const votes = new Uint8Array(8)
 
+  let copy = { ...vote }
 
-  let copy = [...votes]
 
 
 
@@ -34,19 +34,22 @@ const App = () => {
     setSelected(valinta)
   }
 
+
   const handleVotes = () => {
-    console.log('nykyinen paikka on', selected)
-    console.log(copy)
     copy[selected] += 1
-   // console.log(copy)
+    setVote(copy)
+    //console.log(copy)
+    console.log(copy)
   }
 
+
+ 
 
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-      <p>has  {copy[0]} votes</p>
+      <p>has {vote[selected]} votes</p>
       <button onClick={handleVotes}>vote</button>
       <button onClick={handleShuffle}>next anecdote</button>
     </div>
