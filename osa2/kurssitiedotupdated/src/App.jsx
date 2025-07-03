@@ -90,10 +90,33 @@ const Part = (props) => {
 
 const Total = (props) => { 
 console.log('totalin propsit', props.parts[0].exercises)
-let sum = 0
+
+/*let sum = 0
 for(let i = 0; i<props.parts.length; i++) {
   sum += props.parts[i].exercises
 }
+  */
+
+
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+/*const sum = props.parts.reduce((
+  accumulator, current) => {
+    console.log('accumulator', accumulator)
+    console.log('current', current.exercises)
+    return accumulator.exercises + current.exercises
+  }
+) 
+  */
+
+const sum = props.parts.reduce(
+  (accumulator, current) => accumulator + 
+  current.exercises,
+  0
+)
+
+
+
+
   return (
     <div><h2>total of {sum} exercises</h2></div>
   )
