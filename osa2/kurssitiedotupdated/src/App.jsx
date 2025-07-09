@@ -1,5 +1,6 @@
 const App = () => {
-  const course = {
+  const courses = [
+    {
     name: 'Half Stack application development',
     id: 1,
     parts: [
@@ -29,23 +30,83 @@ const App = () => {
         id: 5
       }
     ]
+  },
+  {
+    name: 'Node.js',
+    id: 2,
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3,
+        id: 1
+      },
+      {
+        name: 'Middlewares',
+        exercises: 7,
+        id: 2
+      }
+    ]
+   }
+  ]
+
+  const kutsut = courses.map(x =>
+    <Course key={x.id}>
+      {x.parts}
+    </Course>
+  )
+  console.log('kutsut', kutsut)
+
+/*
+const kutsuFunktio = () => {
+  for(let i = 0; i<courses.length; i++) {
+    return kutsut
   }
+}
+  */
 
 
   return (
     <div>
-      <Course course={course} />
+      <Course course={courses} />
     </div>
   )
 }
 
+
 const Course = (props) => {
   console.log('coursen propsit', props)
+
+
+
+    const otsikot = props.course.map(x =>
+    <h1 key={x.id}>
+      {x.name}
+    </h1>
+  )
+
+
+  console.log(otsikot)
+
+   const sisalto = props.course.map(x =>
+    <Course key={x.id}>
+      {x.parts}
+    </Course>
+  )
+
+
+  console.log(sisalto)
+
+
   return (
     <div>
-      <Header course={props.course.name} />
-      <Content parts={props.course.parts} />
-      <Total parts={props.course.parts} />
+      <h1>Web development curriculum</h1>
+      {
+        props.course.map(x =>
+          <div key={x.id}>
+            <Header course={x.name}/> <Content parts={x.parts} /> <Total parts={x.parts} />
+          </div>
+        )
+      }
     </div>
   )
 }
@@ -55,7 +116,7 @@ const Header = (props) => {
   console.log('headerin propsit', props)
   return (
     <div>
-      <h1>{props.course}</h1>
+      <h2>{props.course}</h2>
     </div>
   )
 }
