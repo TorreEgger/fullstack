@@ -22,7 +22,7 @@ const Course = ({ course }) => {
 
   return (
     <div>
-      <h1>Web development curriculum</h1>
+      <Header header={'Web development curriculum'} />
       {
         course.map(x =>
           <div key={x.id}>
@@ -35,10 +35,12 @@ const Course = ({ course }) => {
 }
 
 
-const Header = ({ course }) => {
-  console.log('headerin propsit', course)
+const Header = ({ header, course }) => {
+  console.log('pääotsikko', header)
+  console.log('headerin propsi', course)
   return (
     <div>
+      <h1>{header}</h1>
       <h2>{course}</h2>
     </div>
   )
