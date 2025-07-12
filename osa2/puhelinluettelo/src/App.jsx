@@ -2,20 +2,28 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas',
-      number: '040-1231244'
-    }
-  ]) 
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+  ])
   const [newName, setNewName] = useState('')
 
   const [newNumber, setNewNumber] = useState('')
+
+  const [Searched, setSearched] = useState('')
+
+  const [show, setShow] = useState(persons)
+
+
+
   
 
 const addPerson = (event) => {
   event.preventDefault()
 
 
-  if (persons.find(name => name.name === newName))
+  if (persons.find(person => person.name === newName))
     return alert(`${newName} is already added to phonebook`)
 
   const nameObject = {
@@ -25,6 +33,7 @@ const addPerson = (event) => {
 
 
   setPersons(persons.concat(nameObject))
+  setShow(persons.concat(nameObject))
   setNewName('')
   setNewNumber('')
 }
@@ -41,7 +50,27 @@ const handleNumberChange = (event) => {
 }
 
 
+const handleSearchChange = (event) => {
+ // console.log(event.target.value)
+  setSearched(event.target.value)
 
+  //console.log(event.target.value)
+
+  
+
+
+  
+  setShow(persons.filter(person => person.name.toLowerCase().includes(event.target.value.toLowerCase())
+   || person.number.includes(event.target.value)))
+
+
+  //persons.forEach((person) => console.log(person.name === Searched))
+
+}
+
+ //let nimi = "jarmo"
+
+ //console.log(nimi.toUpperCase())
 
 
 
@@ -49,6 +78,13 @@ const handleNumberChange = (event) => {
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
+        <div>
+          filter shown with <input
+          value={Searched}
+          onChange={handleSearchChange}
+          />
+        </div>
+        <div><h2>add a new</h2></div>
         <div>
           name: <input 
           value={newName}
@@ -66,7 +102,7 @@ const handleNumberChange = (event) => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(x =>
+      {show.map(x =>
       <p key={x.name}>
         {x.name} {x.number}
       </p>
