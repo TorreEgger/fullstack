@@ -73,13 +73,13 @@ const handleSearchChange = (event) => {
   return (      
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          filter shown with <input
-          value={searched}
-          onChange={handleSearchChange}
-          />
+       <div>
+        filter shown with <input
+        value={searched}
+        onChange={handleSearchChange}
+        />
         </div>
+      <form onSubmit={addPerson}>
         <div><h2>add a new</h2></div>
         <div>
           name: <input 
@@ -107,5 +107,16 @@ const handleSearchChange = (event) => {
   )
 
 }
+
+
+
+/*
+const Filter = (props) = {
+
+  return (
+    
+  )
+}
+  */
 
 export default App
