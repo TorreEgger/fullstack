@@ -19,7 +19,6 @@ const PersonForm = (props) => {
  
   return (
       <form onSubmit={props.addPerson}>
-        <div><h2>add a new</h2></div>
         <div>
           name: <input 
           value={props.newName}
@@ -142,7 +141,7 @@ const handleSearchChange = (event) => {
 
       <h3>Numbers</h3>
 
-      
+
       <Persons show={show} />
     </div>
   )
