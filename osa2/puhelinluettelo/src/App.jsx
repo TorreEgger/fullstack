@@ -11,7 +11,7 @@ const App = () => {
 
   const [newNumber, setNewNumber] = useState('')
 
-  const [Searched, setSearched] = useState('')
+  const [searched, setSearched] = useState('')
 
   const [show, setShow] = useState(persons)
 
@@ -56,10 +56,6 @@ const handleSearchChange = (event) => {
 
   //console.log(event.target.value)
 
-  
-
-
-  
   setShow(persons.filter(person => person.name.toLowerCase().includes(event.target.value.toLowerCase())
    || person.number.includes(event.target.value)))
 
@@ -80,7 +76,7 @@ const handleSearchChange = (event) => {
       <form onSubmit={addPerson}>
         <div>
           filter shown with <input
-          value={Searched}
+          value={searched}
           onChange={handleSearchChange}
           />
         </div>
