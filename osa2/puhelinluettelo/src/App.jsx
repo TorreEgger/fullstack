@@ -91,7 +91,6 @@ axios
 
 
 
-
   
 
 const addPerson = (event) => {
@@ -103,15 +102,27 @@ const addPerson = (event) => {
 
   const nameObject = {
     name: newName,
-    number: newNumber,
-    id: persons.length+1
+    number: newNumber
   }
 
+  axios
+  .post('http://localhost:3001/persons', nameObject)
+  .then(response => {
+    setPersons(persons.concat(response.data))
+    setShow(persons.concat(response.data))
+    setNewName('')
+    setNewNumber('')
+    console.log(nameObject)
+  })
 
-  setPersons(persons.concat(nameObject))
+
+ /* setPersons(persons.concat(nameObject))
   setShow(persons.concat(nameObject))
   setNewName('')
   setNewNumber('')
+  */
+
+
 }
 
 
