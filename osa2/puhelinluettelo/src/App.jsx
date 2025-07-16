@@ -91,27 +91,38 @@ axios
 
 
 
-
   
 
 const addPerson = (event) => {
   event.preventDefault()
 
 
-  if (persons.find(person => person.name === newName))
+  if (persons.find(person => person.name.toLowerCase() === newName.toLowerCase()))
     return alert(`${newName} is already added to phonebook`)
 
   const nameObject = {
     name: newName,
-    number: newNumber,
-    id: String(persons.length + 1)
+    number: newNumber
   }
 
+  axios
+  .post('http://localhost:3001/persons', nameObject)
+  .then(response => {
+    setPersons(persons.concat(response.data))
+    setShow(persons.concat(response.data))
+    setNewName('')
+    setNewNumber('')
+    console.log(nameObject)
+  })
 
-  setPersons(persons.concat(nameObject))
+
+ /* setPersons(persons.concat(nameObject))
   setShow(persons.concat(nameObject))
   setNewName('')
   setNewNumber('')
+  */
+
+
 }
 
 
