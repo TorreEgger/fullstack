@@ -44,7 +44,7 @@ const Persons = (props) => {
     <div>
        {props.show.map(x =>
       <p key={x.id}>
-        {x.name} {x.number}
+        {x.name} {x.number} <button onClick={() => props.remove(x.id)}>delete</button>
       </p>
       )}
     </div>
@@ -74,6 +74,18 @@ const App = () => {
   },  [])
 
 
+
+  const remove = (id) => {
+    const person = (persons.find(person => person.id === id))
+    console.log(person.name)
+    if(confirm('Delete ' + person.name + ' ?'))
+      personService
+        .remove(id)
+        .then(response => {
+          setPersons(persons.filter(x => x.id !== response.id))
+          setShow(persons.filter(x => x.id !== response.id))
+        })
+  }
 
 /*
 axios
@@ -172,7 +184,7 @@ const handleSearchChange = (event) => {
       <h3>Numbers</h3>
 
 
-      <Persons show={show} />
+      <Persons show={show} remove={remove} />
     </div>
   )
 
