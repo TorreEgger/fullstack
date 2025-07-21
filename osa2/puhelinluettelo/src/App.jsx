@@ -97,7 +97,32 @@ axios
 
   */
 
+const replace = (parameter) => {
+  const id = parameter.id
+  const person = persons.find(person => person.id === id)
+  console.log(parameter)
 
+ // console.log(id)
+
+  const changedNumber = { ...person, number: newNumber}
+
+  console.log('replacessa', changedNumber)
+  
+
+  personService
+    .update(id, changedNumber)
+    .then(response => {
+      console.log('response', response)
+      //console.log(setPersons(persons.map(person => person.id !== id ? person : response)))
+      setPersons(persons.map(person => person.id !== id ? person : response))
+      setShow(persons.map(person => person.id !== id ? person : response))
+      console.log('persons', persons)
+      setNewName('')
+      setNewNumber('')
+    })
+
+}
+    
 
 
   
@@ -105,17 +130,35 @@ axios
 const addPerson = (event) => {
   event.preventDefault()
 
+  console.log(event)
+  const parameter = (persons.find(person => person.name.toLowerCase() === newName.toLowerCase()))
+
 
   if (persons.find(person => person.name.toLowerCase() === newName.toLowerCase()))
-    return alert(`${newName} is already added to phonebook`)
+    if((confirm(`${newName} is already added to phonebook, replace the
+      old number with a new one?`)))
+        return replace(parameter)
+      else {
+        setNewName('')
+        setNewNumber('')
+        return
+      }
 
-  const nameObject = {
+      
+      
+        
+  //const nimi = persons.find(person => person.name === newName)
+
+  //console.log(nimi.id)
+
+
+  const personObject = {
     name: newName,
     number: newNumber
   }
 
   personService
-    .create(nameObject)
+    .create(personObject)
       .then(returnedPerson => {
        setPersons(persons.concat(returnedPerson))
        setShow(persons.concat(returnedPerson))
