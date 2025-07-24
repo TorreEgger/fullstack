@@ -140,11 +140,11 @@ const replace = (parameter) => {
     })
     .catch(error => {
       setMessage(`Information of ${parameter.name} has already been deleted from server`)
-      setPersons(persons.filter(x => x.id !== id))
-      setShow(persons.filter(x => x.id !== id))
       setTimeout(() => {
         setMessage(null)
          }, 5000)
+      setPersons(persons.filter(x => x.id !== id))
+      setShow(persons.filter(x => x.id !== id))
       setNewName('')
       setNewNumber('')
     })
