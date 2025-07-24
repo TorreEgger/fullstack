@@ -65,7 +65,7 @@ const App = () => {
 
   const [show, setShow] = useState(persons)
 
-  const [message, setMessage] = useState('Operations will be shown here')
+  const [message, setMessage] = useState(null)
  // const [errorMessage, setErrorMessage] = useState('')
 
 

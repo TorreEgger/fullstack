@@ -1,21 +1,6 @@
 {
   "persons": [
     {
-      "id": "1",
-      "name": "Arto Hellas",
-      "number": "888-234211"
-    },
-    {
-      "id": "2",
-      "name": "Ada Lovelace",
-      "number": "252-292818"
-    },
-    {
-      "id": "3",
-      "name": "Dan Abramov",
-      "number": "12-43-234345"
-    },
-    {
       "id": "4",
       "name": "Mary Poppendieck",
       "number": "39-23-6423122"
@@ -24,16 +9,6 @@
       "id": "1155",
       "name": "Justin Bieber",
       "number": "751-2958102"
-    },
-    {
-      "id": "a3e4",
-      "name": "Emil Ruusuvuori",
-      "number": "321-92828121"
-    },
-    {
-      "id": "e3d9",
-      "name": "Jannik Sinner",
-      "number": "294-20591821"
     },
     {
       "id": "41d5",
