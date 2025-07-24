@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
+import Notification from './components/Notification'
+
 
 const Filter = (props) => {
 
@@ -63,6 +65,11 @@ const App = () => {
 
   const [show, setShow] = useState(persons)
 
+  const [message, setMessage] = useState('Operations will be shown here')
+ // const [errorMessage, setErrorMessage] = useState('')
+
+
+
   useEffect(() => {
     personService
       .getAll()
@@ -84,6 +91,12 @@ const App = () => {
         .then(response => {
           setPersons(persons.filter(x => x.id !== response.id))
           setShow(persons.filter(x => x.id !== response.id))
+          setMessage(
+            `Person '${person.name}' has been removed`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
   }
 
@@ -113,17 +126,31 @@ const replace = (parameter) => {
     .update(id, changedNumber)
     .then(response => {
       console.log('response', response)
-      //console.log(setPersons(persons.map(person => person.id !== id ? person : response)))
+      console.log((persons.map(person => person.id !== id ? person : response)))
       setPersons(persons.map(person => person.id !== id ? person : response))
       setShow(persons.map(person => person.id !== id ? person : response))
-      console.log('persons', persons)
+      setNewName('')
+      setNewNumber('')
+      setMessage(
+          `Number of '${response.name}' has been changed from '${parameter.number}' to '${response.number}'`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+    })
+    .catch(error => {
+      setMessage(`Information of ${parameter.name} has already been deleted from server`)
+      setPersons(persons.filter(x => x.id !== id))
+      setShow(persons.filter(x => x.id !== id))
+      setTimeout(() => {
+        setMessage(null)
+         }, 5000)
       setNewName('')
       setNewNumber('')
     })
 
 }
     
-
 
   
 
@@ -135,8 +162,7 @@ const addPerson = (event) => {
 
 
   if (persons.find(person => person.name.toLowerCase() === newName.toLowerCase()))
-    if((confirm(`${newName} is already added to phonebook, replace the
-      old number with a new one?`)))
+    if((confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)))
         return replace(parameter)
       else {
         setNewName('')
@@ -164,6 +190,12 @@ const addPerson = (event) => {
        setShow(persons.concat(returnedPerson))
        setNewName('')
        setNewNumber('')
+          setMessage(
+          `Added ${returnedPerson.name}`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
   })
 
 
@@ -211,6 +243,8 @@ const handleSearchChange = (event) => {
   return (      
     <div>
       <h2>Phonebook</h2>
+      
+      <Notification message={message} />
 
 
       <Filter persons={persons} searched={searched} handleSearchChange={handleSearchChange}/>
@@ -220,8 +254,7 @@ const handleSearchChange = (event) => {
 
 
       <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange}
-      handleNumberChange={handleNumberChange}
-      />
+      handleNumberChange={handleNumberChange}/>
 
 
       <h3>Numbers</h3>
