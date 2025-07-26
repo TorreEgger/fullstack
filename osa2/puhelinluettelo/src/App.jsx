@@ -1,58 +1,11 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
 import Notification from './components/Notification'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 
-const Filter = (props) => {
-
- return (
-  <div>
-    filter shown with <input
-    value={props.searched}
-    onChange={props.handleSearchChange}
-    />
-  </div>
- )
-}
-
-
-const PersonForm = (props) => {
- 
- 
-  return (
-      <form onSubmit={props.addPerson}>
-        <div>
-          name: <input 
-          value={props.newName}
-          onChange={props.handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input 
-          value={props.newNumber}
-          onChange={props.handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-  )
-}
-
-
-const Persons = (props) => {
-  return (
-    <div>
-       {props.show.map(x =>
-      <p key={x.id}>
-        {x.name} {x.number} <button onClick={() => props.remove(x.id)}>delete</button>
-      </p>
-      )}
-    </div>
-
-  )
-}
 
 
 const App = () => {
@@ -66,7 +19,7 @@ const App = () => {
   const [show, setShow] = useState(persons)
 
   const [message, setMessage] = useState(null)
- // const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
 
 
@@ -139,9 +92,9 @@ const replace = (parameter) => {
           }, 5000)
     })
     .catch(error => {
-      setMessage(`Information of ${parameter.name} has already been deleted from server`)
+      setErrorMessage(`Information of ${parameter.name} has already been deleted from server`)
       setTimeout(() => {
-        setMessage(null)
+        setErrorMessage(null)
          }, 5000)
       setPersons(persons.filter(x => x.id !== id))
       setShow(persons.filter(x => x.id !== id))
@@ -244,7 +197,7 @@ const handleSearchChange = (event) => {
     <div>
       <h2>Phonebook</h2>
       
-      <Notification message={message} />
+      <Notification message={message} errorMessage={errorMessage} />
 
 
       <Filter persons={persons} searched={searched} handleSearchChange={handleSearchChange}/>
