@@ -200,7 +200,7 @@ const handleSearchChange = (event) => {
       <Notification message={message} errorMessage={errorMessage} />
 
 
-      <Filter persons={persons} searched={searched} handleSearchChange={handleSearchChange}/>
+      <Filter searched={searched} handleSearchChange={handleSearchChange}/>
 
 
       <h3>Add a new</h3>
