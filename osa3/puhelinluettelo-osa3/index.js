@@ -6,7 +6,6 @@ const cors = require('cors')
 app.use(cors())
 
 
-//uutta committia varten
 
 let persons = [
     {
@@ -31,7 +30,6 @@ let persons = [
     }
 ]
 
-app.use(express.static('dist'))
 app.use(express.json())
 
 
