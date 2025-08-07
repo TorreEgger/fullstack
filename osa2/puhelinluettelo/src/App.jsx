@@ -42,8 +42,10 @@ const App = () => {
       personService
         .remove(id)
         .then(response => {
-          setPersons(persons.filter(x => x.id !== response.id))
-          setShow(persons.filter(x => x.id !== response.id))
+          console.log(persons)
+          console.log(response)
+          setPersons(persons.filter(x => x.id !== id))
+          setShow(persons.filter(x => x.id !== id))
           setMessage(
             `Person '${person.name}' has been removed`
           )
