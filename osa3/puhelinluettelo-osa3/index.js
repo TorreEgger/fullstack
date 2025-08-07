@@ -6,6 +6,8 @@ const cors = require('cors')
 app.use(cors())
 
 
+//uutta committia varten
+
 let persons = [
     {
         id: "1",
