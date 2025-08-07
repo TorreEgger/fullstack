@@ -1,3 +1,3 @@
-Eevert Salmisen fullstack tehtäviä:
+Eevert Salmisen Fullstack-tehtäviä:
 
-puhelinluettelon verkkosivu: https://puhelinluettelo-lale.onrender.com
+Puhelinluettelon verkkosivu: https://fullstack-p4d0.onrender.com
