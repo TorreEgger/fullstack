@@ -41,8 +41,7 @@ app.get('/info', (request, response) => {
     for(let i = 0; i<persons.length; i++) {
         count++
     }
-    response.send(`<p>Phonebook has info for ${count} people</p>
-                    <p>${date}</p>`
+    response.send(`<p>Phonebook has info for ${count} people</p> <p>${date}</p>`
     )
 })
 
