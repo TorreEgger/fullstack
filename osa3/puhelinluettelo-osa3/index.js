@@ -19,13 +19,19 @@ app.use(morgan('tiny'))
 app.get('/info', (request, response) => {
     let date = Date()
     let count = 0
+    /*
     for(let i = 0; i<Person.length; i++) {
         count++
     }
+        */
+    Person.find({}).then(result => {
+        result.forEach(person => {
+            count++ 
+        })
+        response.send(`<p>Phonebook has info for ${count} people</p> <p>${date}</p>`)
+    })
+
     
-   
-    response.send(`<p>Phonebook has info for ${count} people</p> <p>${date}</p>`
-    )
 })
 
 
@@ -38,14 +44,9 @@ app.get('/api/persons', (request, response) => {
 
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    const person = persons.find(person => person.id === id)
-
-    if (person) {
-         response.json(person)
-    } else {
-        response.status(404).end()
-    }
+    Person.findById(request.params.id).then(person => {
+        response.json(person)
+    })
     
 })
 
@@ -84,23 +85,22 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
+    /*
     if(persons.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
         return response.status(400).json({
             error: 'name must be unique'
         })
     }
+    */
 
-    const person = {
-        id: generateId(),
+    const person = new Person({
         name: body.name,
-        number: body.number,
-    }
+        number: body.number    
+    })
 
-
-    persons = persons.concat(person)
-
-
-    response.json(person)
+    person.save().then(savedPerson => {
+        response.json(savedPerson)
+    })
 
 })
 
