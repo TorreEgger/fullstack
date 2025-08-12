@@ -16,6 +16,10 @@ app.use(express.json())
 app.use(morgan('tiny'))
 
 
+
+// used this source on how to to create the .env file
+// https://www.reddit.com/r/react/comments/p9a9od/how_to_create_a_env_file/
+
 app.get('/info', (request, response) => {
     let date = Date()
     let count = 0
