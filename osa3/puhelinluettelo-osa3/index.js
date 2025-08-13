@@ -34,6 +34,11 @@ app.get('/info', (request, response) => {
         })
         response.send(`<p>Phonebook has info for ${count} people</p> <p>${date}</p>`)
     })
+    .catch(error => {
+        console.log(error)
+        response.status(400).send({ error: 'an error ocurred'})
+
+    })
 
     
 })
@@ -44,21 +49,34 @@ app.get('/api/persons', (request, response) => {
         response.json(persons)
         console.log(persons)
     })
+    
 })
 
 
 app.get('/api/persons/:id', (request, response) => {
     Person.findById(request.params.id).then(person => {
-        response.json(person)
+        if (person) {
+            response.json(person)
+        } else {
+            response.status(404).end()
+        }
+    })
+    .catch(error => {
+        console.log(error)
+        response.status(400).send({ error: 'malformatted id'})
     })
     
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(person => person.id !== id)
-
-    response.status(204).end()
+    Person.findByIdAndDelete(request.params.id)
+    .then(result => {
+        response.status(204).end()
+    })
+    .catch(error => {
+        console.log(error)
+        response.status(400).send({ error: 'malformatted id'})
+    })
 })
 
 
@@ -107,6 +125,14 @@ app.post('/api/persons', (request, response) => {
     })
 
 })
+
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint'})
+}
+
+app.use(unknownEndpoint)
+
 
 
 
