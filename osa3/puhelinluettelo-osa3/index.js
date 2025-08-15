@@ -47,7 +47,7 @@ app.get('/api/persons', (request, response) => {
 
 
 
-app.get('/api/persons/:id', (request, response, next) => {
+app.get('/api/persons/:id', (request, response) => {
     Person.findById(request.params.id).then(person => {
         if (person) {
             response.json(person)
@@ -55,16 +55,21 @@ app.get('/api/persons/:id', (request, response, next) => {
             response.status(404).end()
         }
     })
-    .catch(error => next(error))
+    .catch(error => {
+        console.log(error)
+        response.status(400).send({ error: 'malformatted id '})
+    })
 })
 
 
-app.delete('/api/persons/:id', (request, response, next) => {
+app.delete('/api/persons/:id', (request, response) => {
     Person.findByIdAndDelete(request.params.id)
     .then(result => {
         response.status(204).end()
     })
-    .catch(error => next(error))
+    .catch(error => {
+        return response.status(400).send({ error: 'malformatted id '})
+    })
 })
     
 
@@ -80,32 +85,44 @@ const generateId = () => {
         personsArray = persons
        // console.log(personsArray)
     })
+    /*
+       if(personsArray.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
+        return response.status(400).send({ error: 'name must be unique'})
+    }
+        */
 
 
-app.post('/api/persons', (request, response, next) => {
+
+app.post('/api/persons', (request, response) => {
     console.log(request.body)
     const body = request.body
 
-
     if (!body.name && !body.number) {
-        return next('no information given')
+        return response.status(400).json({
+            error: 'no information given' })
     }
-
 
     if (!body.name) {
-        return next('name is missing')
+        return response.status(400).json({
+            error: 'name is missing' })
     }
-
 
     if (!body.number) {
-        return next('number is missing')
+        return response.status(400).json({
+            error: 'number is missing' })
     }
 
-    
     if(personsArray.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
-        return response.status(400).send({ error: 'name must be unique'})
+        return response.status(400).json({ error: 'name must be unique'})
     }
 
+    /*
+    if(persons.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
+        return response.status(400).json({
+            error: 'name must be unique'
+        })
+    }
+    */
 
     const person = new Person({
         name: body.name,
@@ -118,7 +135,7 @@ app.post('/api/persons', (request, response, next) => {
 
 })
 
-
+/*
 app.put('/api/persons/:id', (request, response, next) => {
     const { name, number } = request.body
 
@@ -138,7 +155,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
     
-
+*/
 
 
 // oletattomia osoitteita varten. ei kuulu virheiden käsittelyyn
@@ -151,56 +168,6 @@ app.use(unknownEndpoint)
 
 
 
-const errorHandler = (error, request, response, next) => {
-    if (error.message) {
-    console.log('tähän errorHandlerin tulostus', error.message)
-    }
-
-    if (error.name === 'CastError') {
-        console.log(error)
-        return response.status(400).send({ error: 'malformatted id'})
-    }
-
-
-    if (error === 'no information given') {
-        console.log(error)
-        return response.status(400).json({ error: 'no information given'})
-    }
-
-
-    if (error === 'name is missing') {
-        console.log(error)
-        return response.status(400).send({ error: 'name is missing'})
-    }
-
-
-    if (error === 'number is missing') {
-        console.log(error)
-        return response.status(400).send({ error: 'number is missing'})
-    }
-
-    /*
-    if (error === 'name must be unique') {
-        console.log(error)
-        return response.status(400).send({ error: 'name must be unique'})
-    }
-        */
-
-    /*
-    if (error.message === 'unknown endpoint') {
-        console.log(error)
-        return response.status(404).send({ error: 'unknown endpoint'})
-    }
-        */
-        
-
-    //console.log(next(error))
-    next(error)
-
-}
-
-
-app.use(errorHandler)
 
 
 
