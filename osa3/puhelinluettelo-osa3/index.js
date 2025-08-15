@@ -47,7 +47,7 @@ app.get('/api/persons', (request, response) => {
 
 
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(person => {
         if (person) {
             response.json(person)
@@ -55,21 +55,16 @@ app.get('/api/persons/:id', (request, response) => {
             response.status(404).end()
         }
     })
-    .catch(error => {
-        console.log(error)
-        response.status(400).send({ error: 'malformatted id '})
-    })
+    .catch(error => next(error))
 })
 
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndDelete(request.params.id)
     .then(result => {
         response.status(204).end()
     })
-    .catch(error => {
-        return response.status(400).send({ error: 'malformatted id '})
-    })
+    .catch(error => next(error))
 })
     
 
@@ -85,49 +80,38 @@ const generateId = () => {
         personsArray = persons
        // console.log(personsArray)
     })
-    /*
-       if(personsArray.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
-        return response.status(400).send({ error: 'name must be unique'})
-    }
-        */
 
 
-
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     console.log(request.body)
     const body = request.body
 
+
     if (!body.name && !body.number) {
-        return response.status(400).json({
-            error: 'no information given' })
+        return next('no information given')
     }
+
 
     if (!body.name) {
-        return response.status(400).json({
-            error: 'name is missing' })
+        return next('name is missing')
     }
+
 
     if (!body.number) {
-        return response.status(400).json({
-            error: 'number is missing' })
+        return next('number is missing')
     }
+
 
     if(personsArray.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
-        return response.status(400).json({ error: 'name must be unique'})
+        return next('name must be unique')
     }
 
-    /*
-    if(persons.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
-        return response.status(400).json({
-            error: 'name must be unique'
-        })
-    }
-    */
 
     const person = new Person({
         name: body.name,
         number: body.number    
     })
+
 
     person.save().then(savedPerson => {
         response.json(savedPerson)
@@ -167,6 +151,56 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint)
 
 
+const errorHandler = (error, request, response, next) => {
+
+    console.log('tähän errorHandlerin tulostus', error.message)
+
+
+    if (error.name === 'CastError') {
+        console.log(error)
+        return response.status(400).send({ error: 'malformatted id'})
+    }
+
+
+    if (error === 'no information given') {
+        console.log(error)
+        return response.status(400).send({ error: 'no information given'})
+    }
+
+
+    if (error === 'name is missing') {
+        console.log(error)
+        return response.status(400).send({ error: 'name is missing'})
+    }
+
+
+    if (error === 'number is missing') {
+        console.log(error)
+        return response.status(400).send({ error: 'number is missing'})
+    }
+
+
+    if (error === 'name must be unique') {
+        console.log(error)
+        return response.status(400).send({ error: 'name must be unique'})
+    }
+
+
+    /*
+    if (error.message === 'unknown endpoint') {
+        console.log(error)
+        return response.status(404).send({ error: 'unknown endpoint'})
+    }
+        */
+        
+
+    //console.log(next(error))
+    next(error)
+
+}
+
+
+app.use(errorHandler)
 
 
 
