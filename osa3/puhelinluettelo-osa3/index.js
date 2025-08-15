@@ -119,7 +119,7 @@ app.post('/api/persons', (request, response, next) => {
 
 })
 
-/*
+
 app.put('/api/persons/:id', (request, response, next) => {
     const { name, number } = request.body
 
@@ -139,7 +139,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
     
-*/
+
 
 
 // oletattomia osoitteita varten. ei kuulu virheiden käsittelyyn
