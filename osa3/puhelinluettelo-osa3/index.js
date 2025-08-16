@@ -17,8 +17,9 @@ app.use(morgan('tiny'))
 
 
 
-// used this source on how to to create the .env file
+// tutoriaalissa oli ongelmia miten .env-tiedosto luodaan, kun visual studio pisti sen txt-tyyppiseksi. sitten katsoin täältä miten se tehdään
 // https://www.reddit.com/r/react/comments/p9a9od/how_to_create_a_env_file/
+// nyt kuitenkin siirsin sisällön uuteen tiedostoon, nimesin sen .evn ja uudelleennimesin sen file explorerissa
 
 app.get('/info', (request, response) => {
     let date = Date()
