@@ -8,6 +8,7 @@ const Person = require('./models/person')
 
 let personsArray = []
 
+
 app.use(express.static('dist'))
 app.use(express.json())
 
