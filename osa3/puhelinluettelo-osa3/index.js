@@ -84,28 +84,27 @@ const generateId = () => {
     })
 
 
-app.post('/api/persons', (request, response, next) => {
+app.post('/api/persons', (request, response) => {
     console.log(request.body)
     const body = request.body
 
-
     if (!body.name && !body.number) {
-        return next('no information given')
+        return response.status(400).json({
+            error: 'no information given' })
     }
-
 
     if (!body.name) {
-        return next('name is missing')
+        return response.status(400).json({
+            error: 'name is missing' })
     }
-
 
     if (!body.number) {
-        return next('number is missing')
+        return response.status(400).json({
+            error: 'number is missing' })
     }
 
-
     if(personsArray.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
-        return next('name must be unique')
+        return response.status(400).json({ error: 'name must be unique'})
     }
 
 
@@ -163,7 +162,7 @@ const errorHandler = (error, request, response, next) => {
         return response.status(400).send({ error: 'malformatted id'})
     }
 
-
+    /*
     if (error === 'no information given') {
         console.log(error)
         return response.status(400).send({ error: 'no information given'})
@@ -186,6 +185,7 @@ const errorHandler = (error, request, response, next) => {
         console.log(error)
         return response.status(400).send({ error: 'name must be unique'})
     }
+        */
 
 
     /*
