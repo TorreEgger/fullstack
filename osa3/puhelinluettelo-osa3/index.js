@@ -104,7 +104,7 @@ app.post('/api/persons', (request, response) => {
     }
 
     if(personsArray.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
-        return response.status(400).json({ error: 'name must be unique'})
+        return response.status(400).json({ error: 'name must be unique' })
     }
 
 
