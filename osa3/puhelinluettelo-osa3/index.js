@@ -118,6 +118,7 @@ app.post('/api/persons', (request, response, next) => {
     person.save().then(savedPerson => {
         response.json(savedPerson)
     })
+    .catch(error => next(error))
 
 })
 
@@ -160,31 +161,35 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError') {
         console.log(error)
-        return response.status(400).send({ error: 'malformatted id'})
+        return response.status(400).send({ error: 'malformatted id' })
+    }
+
+    if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message })
     }
 
 
     if (error === 'no information given') {
         console.log(error)
-        return response.status(400).send({ error: 'no information given'})
+        return response.status(400).send({ error: 'no information given' })
     }
 
 
     if (error === 'name is missing') {
         console.log(error)
-        return response.status(400).send({ error: 'name is missing'})
+        return response.status(400).send({ error: 'name is missing' })
     }
 
 
     if (error === 'number is missing') {
         console.log(error)
-        return response.status(400).send({ error: 'number is missing'})
+        return response.status(400).send({ error: 'number is missing' })
     }
 
 
     if (error === 'name must be unique') {
         console.log(error)
-        return response.status(400).send({ error: 'name must be unique'})
+        return response.status(400).send({ error: 'name must be unique' })
     }
 
 
