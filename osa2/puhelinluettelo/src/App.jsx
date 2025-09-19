@@ -16,10 +16,11 @@ const App = () => {
 
   const [searched, setSearched] = useState('')
 
-  const [show, setShow] = useState(persons)
+  const [show, setShow] = useState([])
 
   const [message, setMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+
 
 
 
@@ -43,7 +44,8 @@ const App = () => {
         .remove(id)
         .then(response => {
           console.log(persons)
-          console.log(response)
+          console.log(response.data)
+          console.log(persons.filter(x => x.id !== id))
           setPersons(persons.filter(x => x.id !== id))
           setShow(persons.filter(x => x.id !== id))
           setMessage(

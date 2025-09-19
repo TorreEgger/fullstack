@@ -6,8 +6,6 @@ const Person = require('./models/person')
 
 
 
-let personsArray = []
-
 app.use(express.static('dist'))
 app.use(express.json())
 
@@ -17,8 +15,9 @@ app.use(morgan('tiny'))
 
 
 
-// used this source on how to to create the .env file
+// tutoriaalissa oli ongelmia miten .env-tiedosto luodaan, kun visual studio pisti sen txt-tyyppiseksi. sitten katsoin täältä miten se tehdään
 // https://www.reddit.com/r/react/comments/p9a9od/how_to_create_a_env_file/
+// nyt kuitenkin siirsin sisällön uuteen tiedostoon, nimesin sen .evn ja uudelleennimesin sen file explorerissa
 
 app.get('/info', (request, response) => {
     let date = Date()
@@ -57,18 +56,20 @@ app.get('/api/persons/:id', (request, response) => {
     })
     .catch(error => {
         console.log(error)
-        response.status(400).send({ error: 'malformatted id '})
+        response.status(400).send({ error: 'malformatted id'})
     })
 })
 
 
+// had to watch for 3.15 how i did this previously
 app.delete('/api/persons/:id', (request, response) => {
     Person.findByIdAndDelete(request.params.id)
     .then(result => {
         response.status(204).end()
     })
     .catch(error => {
-        return response.status(400).send({ error: 'malformatted id '})
+        console.log(error)
+        response.status(400).send({ error: 'malformatted id'})
     })
 })
     
@@ -80,23 +81,11 @@ const generateId = () => {
 }
 
 
-    /*
-       if(personsArray.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
-        return response.status(400).send({ error: 'name must be unique'})
-    }
-        */
-
-
 
 app.post('/api/persons', (request, response) => {
     console.log(request.body)
     const body = request.body
 
-        //tässä poimitaan nuo henkilöt taulukkoon, että virheenkäsittely onnistuu helpommin post-metodissa
-     Person.find({}).then(persons => {
-        personsArray = persons
-       // console.log(personsArray)
-    })
 
     if (!body.name && !body.number) {
         return response.status(400).json({
@@ -113,51 +102,28 @@ app.post('/api/persons', (request, response) => {
             error: 'number is missing' })
     }
 
-    if(personsArray.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
-        return response.status(400).json({ error: 'name must be unique'})
-    }
-
-    /*
-    if(persons.find(person => person.name.toLowerCase() === body.name.toLowerCase())) {
-        return response.status(400).json({
-            error: 'name must be unique'
-        })
-    }
-    */
-
-    const person = new Person({
+   
+    // https://www.mongodb.com/docs/manual/reference/operator/query/regex/#std-label-regex-case-insensitive
+    // Täältä katsottu apua, että miten regexillä saa tuon haun tunnistamaan merkkijonot riippumatta "casesta"
+    Person.findOne({ name: { $regex: body.name, $options: 'i' }}).then(result => {
+        if(result)
+            return response.status(400).json({
+                error: 'name must be unique' })
+        
+        const person = new Person({
         name: body.name,
         number: body.number    
-    })
+        })
 
-    person.save().then(savedPerson => {
-        response.json(savedPerson)
-    })
-
-})
-
-/*
-app.put('/api/persons/:id', (request, response, next) => {
-    const { name, number } = request.body
-
-    Person.findById(request.params.id)
-    .then(person => {
-        if (!person) {
-            return response.status(404).end()
-        }
-
-        person.name = name
-        person.number = number
-
-        return person.save().then((updatedPerson) => {
-            response.json(updatedPerson)
+          person.save().then(savedPerson => {
+          response.json(savedPerson)
         })
     })
-    .catch(error => next(error))
-})
-    
-*/
 
+})
+
+
+    
 
 // oletattomia osoitteita varten. ei kuulu virheiden käsittelyyn
 const unknownEndpoint = (request, response) => {
@@ -167,9 +133,63 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
+/*
+const errorHandler = (error, request, response, next) => {
+
+    console.log('tähän errorHandlerin tulostus', error.message)
+
+
+    if (error.name === 'CastError') {
+        console.log(error)
+        return response.status(400).send({ error: 'malformatted id'})
+    }
+
+    
+    if (error === 'no information given') {
+        console.log(error)
+        return response.status(400).send({ error: 'no information given'})
+    }
+
+
+    if (error === 'name is missing') {
+        console.log(error)
+        return response.status(400).send({ error: 'name is missing'})
+    }
+
+
+    if (error === 'number is missing') {
+        console.log(error)
+        return response.status(400).send({ error: 'number is missing'})
+    }
+
+
+    if (error === 'name must be unique') {
+        console.log(error)
+        return response.status(400).send({ error: 'name must be unique'})
+    }
+        
+
+
+    
+    if (error.message === 'unknown endpoint') {
+        console.log(error)
+        return response.status(404).send({ error: 'unknown endpoint'})
+    }
+
+    
+        
+        
+
+    //console.log(next(error))
+    next(error)
+
+}
 
 
 
+app.use(errorHandler)
+
+*/
 
 
 const PORT = process.env.PORT
