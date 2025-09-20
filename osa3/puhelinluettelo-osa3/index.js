@@ -114,6 +114,29 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 
+// tässä ei ole tarkoitus muuttaa sekä nimeä että numeroa, joten
+// pyynnössä ei muuteta nimeä
+
+app.put('/api/persons/:id', (request, response, next) => {
+    const { number } = request.body
+
+    Person.findById(request.params.id)
+    .then(person => {
+        if (!person) {
+            return response.status(404).end()
+        }
+
+        person.number = number
+
+        return person.save().then((updatedPerson) => {
+            response.json(updatedPerson)
+            console.log(updatedPerson)
+        })
+    })
+    .catch(error => next(error))
+})
+
+
     
 
 // oletattomia osoitteita varten. ei kuulu virheiden käsittelyyn
