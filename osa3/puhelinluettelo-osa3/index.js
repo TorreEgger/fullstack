@@ -14,7 +14,6 @@ app.use(express.json())
 app.use(morgan('tiny'))
 
 
-
 // tutoriaalissa oli ongelmia miten .env-tiedosto luodaan, kun visual studio pisti sen txt-tyyppiseksi. sitten katsoin täältä miten se tehdään
 // https://www.reddit.com/r/react/comments/p9a9od/how_to_create_a_env_file/
 // nyt kuitenkin siirsin sisällön uuteen tiedostoon, nimesin sen .evn ja uudelleennimesin sen file explorerissa
@@ -45,7 +44,6 @@ app.get('/api/persons', (request, response) => {
 })
 
 
-
 app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(person => {
         if (person) {
@@ -69,12 +67,10 @@ app.delete('/api/persons/:id', (request, response, next) => {
 })
     
 
-
 const generateId = () => {
     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
     return String(Math.floor(Math.random() * 10000))
 }
-
 
 
 app.post('/api/persons', (request, response, next) => {
@@ -116,7 +112,6 @@ app.post('/api/persons', (request, response, next) => {
 
 // tässä ei ole tarkoitus muuttaa sekä nimeä että numeroa, joten
 // pyynnössä ei muuteta nimeä
-
 app.put('/api/persons/:id', (request, response, next) => {
     const { number } = request.body
 
@@ -136,8 +131,6 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-
-    
 
 // oletattomia osoitteita varten. ei kuulu virheiden käsittelyyn
 const unknownEndpoint = (request, response) => {
@@ -190,10 +183,7 @@ const errorHandler = (error, request, response, next) => {
 }
 
 
-
 app.use(errorHandler)
-
-
 
 
 const PORT = process.env.PORT
