@@ -16,21 +16,15 @@ mongoose.connect(url)
         console.log('error connecting to MongoDB:', error.message)
     })
 
-
+// oli tauon jälkeen sekaannusta minne tämä piti tehdä, joten menin
+// versionhallinnastani ja esimerkkisovelluksen versionallinnasta katsomaan
+// että minnekäs nämä pitikään tehdä
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
-    /*
-    : {
+    name: {
         type: String,
-        minlength: 8,
-        validate: {
-            validator: function(v) {
-                return /\d{3}-\d{10}/.test(v)
-            }
-        }
-    }
-        */
+        minlength: 3
+    },
+    number: String,
 })
 
 
