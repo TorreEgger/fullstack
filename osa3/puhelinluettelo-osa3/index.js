@@ -190,7 +190,10 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 
-const TZ = process.env.TZ
+
+//https://community.render.com/t/date-time-server/5598
+// mulla oli ongelma internettiin viedyn sovelluksen kanssa, että se aika oli väärin. lokaalisti kuitenkin toimi.
+// eli asetin ton ympäristömuuttujan renderiin tämän avulla
 
 
 const PORT = process.env.PORT
