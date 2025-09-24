@@ -190,6 +190,8 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 
+const TZ = process.env.TZ
+
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

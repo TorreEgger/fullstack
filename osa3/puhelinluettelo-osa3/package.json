@@ -1,7 +1,7 @@
 {
   "name": "puhehlinluettelo-osa3",
   "version": "1.0.0",
-  "description": "osan 3 tehtäviä",
+  "description": "osan 3 tehtävät",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
