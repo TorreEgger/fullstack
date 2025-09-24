@@ -22,9 +22,17 @@ mongoose.connect(url)
 const personSchema = new mongoose.Schema({
     name: {
         type: String,
-        minlength: 3
+        minlength: 3,
     },
-    number: String,
+    number: {
+        type: String,
+        minlength: 8,
+        validate: {
+            validator: function(v) {
+                return v.length > 5
+            }
+        }
+    }
 })
 
 
