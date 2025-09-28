@@ -18,8 +18,8 @@ const noteSchema = new mongoose.Schema({
   content: String,
   important: Boolean,
 })
-  
- 
+
+
 
 const Note = mongoose.model('Note', noteSchema)
 /*
@@ -39,7 +39,7 @@ const note3 = new Note({
   content: "Mongoose is a fun word",
   important: false,
 })
-  
+
 
 
 note.save()
