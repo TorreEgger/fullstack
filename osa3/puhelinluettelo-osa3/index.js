@@ -10,7 +10,7 @@ app.use(express.static('dist'))
 app.use(express.json())
 
 
-//tiny-konfiguraatio
+// tiny-konfiguraatio
 app.use(morgan('tiny'))
 
 
@@ -67,7 +67,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
     
 
 const generateId = () => {
-    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
     return String(Math.floor(Math.random() * 10000))
 }
 
@@ -190,7 +190,7 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler)
 
 
-//https://community.render.com/t/date-time-server/5598
+// https://community.render.com/t/date-time-server/5598
 // mulla oli ongelma internettiin viedyn sovelluksen kanssa, että se aika oli väärin. lokaalisti kuitenkin toimi.
 // eli asetin ton ympäristömuuttujan renderiin tämän avulla
 
