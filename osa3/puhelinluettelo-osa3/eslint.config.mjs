@@ -1,6 +1,6 @@
 import globals from 'globals'
 import js from '@eslint/js'
-import stylisticJs from '@stylistic/eslint-plugin-js'
+import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   js.configs.recommended,
@@ -12,7 +12,7 @@ export default [
       ecmaVersion: 'latest',
     },
       plugins: { 
-      '@stylistic/js': stylisticJs,
+      '@stylistic/js': stylistic,
     },
     rules: { 
       '@stylistic/js/indent': ['error', 2],

@@ -5,7 +5,6 @@ const morgan = require('morgan')
 const Person = require('./models/person')
 
 
-
 app.use(express.static('dist'))
 app.use(express.json())
 
@@ -110,8 +109,7 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 
-// tässä ei ole tarkoitus muuttaa sekä nimeä että numeroa, joten
-// pyynnössä ei muuteta nimeä
+// tässä ei ole tarkoitus muuttaa sekä nimeä että numeroa, joten vain nimi muutetaan
 app.put('/api/persons/:id', (request, response, next) => {
   const { number } = request.body
 
