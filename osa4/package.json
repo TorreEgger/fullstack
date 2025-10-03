@@ -1,0 +1,32 @@
+{
+  "name": "osa4",
+  "version": "1.0.0",
+  "description": "osan 4 tehtävät",
+  "homepage": "https://github.com/TorreEgger/fullstack#readme",
+  "bugs": {
+    "url": "https://github.com/TorreEgger/fullstack/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TorreEgger/fullstack.git"
+  },
+  "license": "ISC",
+  "author": "Eevert Salminen",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "eslint": "^9.36.0",
+    "globals": "^16.4.0"
+  }
+}

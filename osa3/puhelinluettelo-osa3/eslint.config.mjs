@@ -3,7 +3,7 @@ import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
 
 export default [
-  js.configs.recommended,
+   js.configs.recommended,
   {
     files: ['**/*.js'],
     languageOptions: {
@@ -11,7 +11,7 @@ export default [
       globals: { ...globals.node },
       ecmaVersion: 'latest',
     },
-      plugins: { 
+        plugins: { 
       '@stylistic/js': stylistic,
     },
     rules: { 
