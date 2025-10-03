@@ -8,7 +8,6 @@ const Person = require('./models/person')
 app.use(express.static('dist'))
 app.use(express.json())
 
-
 // tiny-konfiguraatio
 app.use(morgan('tiny'))
 
