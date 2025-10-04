@@ -13,6 +13,7 @@ const blogSchema = mongoose.Schema({
   likes: Number,
 })
 
+
 //pistin tämän lisäämään siisteyttä, kuten viime osassa
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
@@ -23,13 +24,24 @@ blogSchema.set('toJSON', {
 })
 
 
-
 const Blog = mongoose.model('Blog', blogSchema)
+
 
 const mongoUrl = process.env.MONGODB_URI
 mongoose.connect(mongoUrl)
 
+
 app.use(express.json())
+
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path: ', request.path)
+  console.log('Body: ', request.body)
+  next()
+}
+
+app.use(requestLogger)
+
 
 app.get('/api/blogs', (request, response) => {
   Blog.find({}).then((blogs) => {
@@ -37,13 +49,38 @@ app.get('/api/blogs', (request, response) => {
   })
 })
 
-app.post('/api/blogs', (request, response) => {
+
+//päätin pistää virheenkäsittelyn tähän, niin saa laajenettua enemmän eri moduuleihin
+app.post('/api/blogs', (request, response, next) => {
   const blog = new Blog(request.body)
 
   blog.save().then((result) => {
     response.status(201).json(result)
   })
+    .catch(error => next(error))
 })
+
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+
+  next(error)
+
+}
+
+app.use(errorHandler)
+
 
 const PORT = 3003
 app.listen(PORT, () => {
