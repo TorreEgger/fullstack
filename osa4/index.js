@@ -1,7 +1,6 @@
 require ('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
-const logger = require('./utils/logger')
 
 //https://www.reddit.com/r/react/comments/p9a9od/how_to_create_a_env_file/
 
@@ -35,9 +34,9 @@ mongoose.connect(mongoUrl)
 app.use(express.json())
 
 const requestLogger = (request, response, next) => {
-  logger.info('Method:', request.method)
-  logger.info('Path: ', request.path)
-  logger.info('Body: ', request.body)
+  console.log('Method:', request.method)
+  console.log('Path: ', request.path)
+  console.log('Body: ', request.body)
   next()
 }
 
@@ -83,7 +82,7 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler)
 
 
-const PORT = 3003
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
