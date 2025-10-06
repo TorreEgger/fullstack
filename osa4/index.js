@@ -1,22 +1,23 @@
 require ('dotenv').config()
-const express = require('express')
+//const express = require('express')
+const app = require('./app')
 const mongoose = require('mongoose')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
-const Blog = require('./models/blog')
+//const Blog = require('./models/blog')
 
 
 
 
 //https://www.reddit.com/r/react/comments/p9a9od/how_to_create_a_env_file/
 
-const app = express()
+//const app = express()
 
 const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl)
 
 
-app.use(express.json())
+//app.use(express.json())
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method)
@@ -27,7 +28,7 @@ const requestLogger = (request, response, next) => {
 
 app.use(requestLogger)
 
-
+/*
 app.get('/api/blogs', (request, response) => {
   Blog.find({}).then((blogs) => {
     response.json(blogs)
@@ -45,6 +46,7 @@ app.post('/api/blogs', (request, response, next) => {
     .catch(error => next(error))
 })
 
+*/
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
