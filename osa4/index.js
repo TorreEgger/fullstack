@@ -54,7 +54,7 @@ app.use(unknownEndpoint)
 
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
+  logger.error(error.message)
 
   if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
@@ -69,5 +69,5 @@ app.use(errorHandler)
 
 
 app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`)
+  logger.info(`Server running on port ${config.PORT}`)
 })
