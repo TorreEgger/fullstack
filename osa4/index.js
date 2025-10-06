@@ -5,30 +5,12 @@ const config = require('./utils/config')
 const logger = require('./utils/logger')
 const Blog = require('./models/blog')
 
+
+
+
 //https://www.reddit.com/r/react/comments/p9a9od/how_to_create_a_env_file/
 
 const app = express()
-
-const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number,
-})
-
-
-//pistin tämän lisäämään siisteyttä, kuten viime osassa
-blogSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
-
-
-//const Blog = mongoose.model('Blog', blogSchema)
-
 
 const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl)
