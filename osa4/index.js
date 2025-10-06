@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
+const Blog = require('./models/blog')
 
 //https://www.reddit.com/r/react/comments/p9a9od/how_to_create_a_env_file/
 
@@ -26,7 +27,7 @@ blogSchema.set('toJSON', {
 })
 
 
-const Blog = mongoose.model('Blog', blogSchema)
+//const Blog = mongoose.model('Blog', blogSchema)
 
 
 const mongoUrl = config.MONGODB_URI
