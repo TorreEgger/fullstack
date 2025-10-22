@@ -16,11 +16,22 @@ beforeEach(async () => {
 
 
 
-test.only('all blogs are returned', async () => {
+test.only('all blogs are returned in JSON-format', async () => {
   const response = await api.get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
 
   assert.strictEqual(response.body.length, helper.initialBlogs.length)
 })
+
+
+test('all blogs should contain an id correctly', async () => {
+  const response = await api.get('/api/blogs')
+
+  console.log(response.body.JSON())
+
+})
+
 
 
 after(async () => {
