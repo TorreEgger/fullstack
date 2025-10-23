@@ -16,7 +16,7 @@ beforeEach(async () => {
 
 
 
-test.only('all blogs are returned in JSON-format', async () => {
+test('all blogs are returned in JSON-format', async () => {
   const response = await api.get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/)
@@ -25,10 +25,22 @@ test.only('all blogs are returned in JSON-format', async () => {
 })
 
 
-test('all blogs should contain an id correctly', async () => {
+test.only('all blogs should contain an id correctly', async () => {
   const response = await api.get('/api/blogs')
 
-  console.log(response.body.JSON())
+  //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
+  const idOikein = (currentValue) => Object.hasOwn(currentValue, 'id')
+
+  console.log(response.body.every(idOikein))
+  /*
+  let bool = false
+  for (let i = 0; i<response.body.length; i++) {
+    console.log(bool)
+    bool = Object.hasOwn(response.body[i], '_id')
+  }
+  */
+  //console.log(bool, 'bool')
+  assert.strictEqual(response.body.every(idOikein), true)
 
 })
 
