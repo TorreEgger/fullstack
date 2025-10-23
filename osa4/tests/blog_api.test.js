@@ -25,7 +25,7 @@ test('all blogs are returned in JSON-format', async () => {
 })
 
 
-test.only('all blogs should contain an id correctly', async () => {
+test('all blogs should contain an id correctly', async () => {
   const response = await api.get('/api/blogs')
 
   //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
@@ -43,6 +43,33 @@ test.only('all blogs should contain an id correctly', async () => {
   assert.strictEqual(response.body.every(idOikein), true)
 
 })
+
+
+test.only('a valid blog can be added', async () => {
+  const newBlog = {
+    title: 'Can anything knock China off its mountain?',
+    author: 'Noah Smith',
+    url: 'https://www.noahpinion.blog/p/can-anything-knock-china-off-its',
+    likes: 324
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+
+  const titles = blogsAtEnd.map(x => x.title)
+  assert(titles.includes('Can anything knock China off its mountain?'))
+
+})
+
+
+
 
 
 
