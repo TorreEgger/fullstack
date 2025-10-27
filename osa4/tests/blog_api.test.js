@@ -77,7 +77,8 @@ test.only('likes will be set to zero if left empty', async () => {
   const newBlog = {
     title: 'Happy more waking that running',
     author: 'Jesse Guth',
-    url: 'https://reallynotarunner.com/2025/07/21/happy-more-waking-than-running/'
+    url: 'https://reallynotarunner.com/2025/07/21/happy-more-waking-than-running/',
+    likes: null
   }
 
   await api
