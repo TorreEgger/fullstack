@@ -31,7 +31,7 @@ test('all blogs should contain an id correctly', async () => {
   //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
   const idOikein = (currentValue) => Object.hasOwn(currentValue, 'id')
 
-  console.log(response.body.every(idOikein))
+  //console.log(response.body.every(idOikein))
   /*
   let bool = false
   for (let i = 0; i<response.body.length; i++) {
@@ -63,11 +63,37 @@ test.only('a valid blog can be added', async () => {
   const blogsAtEnd = await helper.blogsInDb()
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
 
-  const titles = blogsAtEnd.map(x => x.title)
-  assert(titles.includes('Can anything knock China off its mountain?'))
+
+  //console.log(blogsAtEnd[blogsAtEnd.length-1].title, 'title')
+  //const titles = blogsAtEnd.map(x => x.title)
+  assert(blogsAtEnd[blogsAtEnd.length-1].title === 'Can anything knock China off its mountain?')
 
 })
 
+
+
+test('likes will be set to zero if left empty', async () => {
+
+  const newBlog = {
+    title: 'Happy more waking that running',
+    author: 'Jesse Guth',
+    url: 'https://reallynotarunner.com/2025/07/21/happy-more-waking-than-running/',
+    likes: null
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+
+  assert.deepStrictEqual(blogsAtEnd[blogsAtEnd.length-1].likes, 0)
+
+})
 
 
 
