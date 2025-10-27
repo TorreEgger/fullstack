@@ -45,7 +45,7 @@ test('all blogs should contain an id correctly', async () => {
 })
 
 
-test.only('a valid blog can be added', async () => {
+test('a valid blog can be added', async () => {
   const newBlog = {
     title: 'Can anything knock China off its mountain?',
     author: 'Noah Smith',
@@ -72,13 +72,12 @@ test.only('a valid blog can be added', async () => {
 
 
 
-test('likes will be set to zero if left empty', async () => {
+test.only('likes will be set to zero if left empty', async () => {
 
   const newBlog = {
     title: 'Happy more waking that running',
     author: 'Jesse Guth',
-    url: 'https://reallynotarunner.com/2025/07/21/happy-more-waking-than-running/',
-    likes: null
+    url: 'https://reallynotarunner.com/2025/07/21/happy-more-waking-than-running/'
   }
 
   await api
@@ -91,7 +90,7 @@ test('likes will be set to zero if left empty', async () => {
   const blogsAtEnd = await helper.blogsInDb()
 
 
-  assert.deepStrictEqual(blogsAtEnd[blogsAtEnd.length-1].likes, 0)
+  assert.strictEqual(blogsAtEnd[blogsAtEnd.length-1].likes, 0)
 
 })
 
