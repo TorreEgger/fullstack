@@ -5,6 +5,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const helper = require('./test_helper')
 const Blog = require('../models/blog')
+const blog = require('../models/blog')
 
 const api = supertest(app)
 
@@ -45,7 +46,7 @@ test('all blogs should contain an id correctly', async () => {
 })
 
 
-test('a valid blog can be added', async () => {
+test.only('a valid blog can be added', async () => {
   const newBlog = {
     title: 'Can anything knock China off its mountain?',
     author: 'Noah Smith',
@@ -66,13 +67,13 @@ test('a valid blog can be added', async () => {
 
   //console.log(blogsAtEnd[blogsAtEnd.length-1].title, 'title')
   //const titles = blogsAtEnd.map(x => x.title)
-  assert(blogsAtEnd[blogsAtEnd.length-1].title === 'Can anything knock China off its mountain?')
+  assert.strictEqual(blogsAtEnd[blogsAtEnd.length-1].title, newBlog.title)
 
 })
 
 
 
-test.only('likes will be set to zero if left empty', async () => {
+test('likes will be set to zero if left empty', async () => {
 
   const newBlog = {
     title: 'Happy more waking that running',
@@ -96,6 +97,34 @@ test.only('likes will be set to zero if left empty', async () => {
 })
 
 
+test('blogs missing a title will equate to a bad request (400)', async () => {
+  const newBlog = {
+    author: 'Noah Smith',
+    url: 'https://www.noahpinion.blog/p/roundup-75-checking-in-on-the-bad',
+    likes: 51
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+
+})
+
+
+
+test('blogs missing an url will equate to a bad request (400)', async () => {
+  const newBlog = {
+    title: 'Adelaide ATP250 R16, Heliövaara/Patten – Schnaitter/Wallner 6-4, 2-6 10-6',
+    author: 'Harri Heliövaara',
+    likes: null
+  }
+})
 
 
 
