@@ -6,6 +6,7 @@ const app = require('../app')
 const helper = require('./test_helper')
 const Blog = require('../models/blog')
 //const blog = require('../models/blog')
+//const blog = require('../models/blog')
 
 const api = supertest(app)
 
@@ -97,7 +98,7 @@ test('likes will be set to zero if left empty', async () => {
 })
 
 
-test.only('blogs missing a title will equate to a bad request (400)', async () => {
+test('blogs missing a title will equate to a bad request (400)', async () => {
   const newBlog = {
     author: 'Noah Smith',
     url: 'https://www.noahpinion.blog/p/roundup-75-checking-in-on-the-bad',
@@ -118,7 +119,7 @@ test.only('blogs missing a title will equate to a bad request (400)', async () =
 
 
 
-test.only('blogs missing an url will equate to a bad request (400)', async () => {
+test('blogs missing an url will equate to a bad request (400)', async () => {
   const newBlog = {
     title: 'TENACITY',
     author: 'JASON JUNG',
@@ -134,6 +135,26 @@ test.only('blogs missing an url will equate to a bad request (400)', async () =>
 
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
 
+})
+
+
+
+// poistamisen toteutus myös samanlainen kuin kurssilla
+test.only('a blog can be deleted', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  const ids = blogsAtEnd.map(b => b.id)
+  assert(!ids.includes(blogToDelete.id))
+
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
 })
 
 
