@@ -6,7 +6,7 @@ const app = require('../app')
 const helper = require('./test_helper')
 const Blog = require('../models/blog')
 //const blog = require('../models/blog')
-//const blog = require('../models/blog')
+
 
 const api = supertest(app)
 
@@ -140,7 +140,7 @@ test('blogs missing an url will equate to a bad request (400)', async () => {
 
 
 // poistamisen toteutus myös samanlainen kuin kurssilla
-test.only('a blog can be deleted', async () => {
+test('a blog can be deleted', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToDelete = blogsAtStart[0]
 
@@ -156,6 +156,32 @@ test.only('a blog can be deleted', async () => {
 
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
 })
+
+
+
+test('the content of a blog can be changed', async () => {
+
+  const blogsAtDb = await helper.blogsInDb()
+  const blogToModify = blogsAtDb[0]
+
+
+  blogToModify.likes = 500
+
+
+  await api
+    .put(`/api/blogs/${blogToModify.id}`)
+    .send(blogToModify)
+    .expect(200)
+
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  assert.strictEqual(500, blogsAtEnd[0].likes)
+
+
+
+})
+
 
 
 

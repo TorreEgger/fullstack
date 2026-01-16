@@ -36,6 +36,32 @@ blogsRouter.delete('/:id', async (request, response) => {
 })
 
 
+//https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status#successful_responses
+blogsRouter.put('/:id', async (request, response) => {
+  const { title, author, url, likes } = request.body
+
+  const toChange = await Blog.findById(request.params.id)
+
+  if (!toChange)
+    return response.status(404).end()
+
+
+  if (title)
+    toChange.title = title
+  if (author)
+    toChange.author = author
+  if (url)
+    toChange.url = url
+  if (likes)
+    toChange.likes = likes
+
+  const savedBlog = await toChange.save()
+  response.json(savedBlog)
+
+
+})
+
+
 
 
 module.exports = blogsRouter
