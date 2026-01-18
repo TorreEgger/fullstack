@@ -165,7 +165,14 @@ describe('tests regarding delete', () => {
 
 
   test('no blog will be deleted if id is wrong', async () => {
+
+    const blogsAtStart = await helper.blogsInDb()
+
     await api.delete('/api/blog/4').expect(404)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    assert.strictEqual(blogsAtStart.length, blogsAtEnd.length)
   })
 
 })
