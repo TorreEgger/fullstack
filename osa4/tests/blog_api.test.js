@@ -204,7 +204,7 @@ describe('tests regarding put-method', () => {
   })
 
 
-  test('the content of a blog will not be changed if the data is invalid', async() => {
+  test('the content of a blog will not be changed if the data is invalid', async () => {
     const blogsAtDb = await helper.blogsInDb()
     const blogToModify = blogsAtDb[0]
 
@@ -221,6 +221,20 @@ describe('tests regarding put-method', () => {
     const blogsAtEnd = await helper.blogsInDb()
     assert(blogsAtEnd[0].likes !== blogToModify.likes)
   })
+
+  test('the content of any blog will not be changed if id is wrong', async () => {
+    const blogsAtDb = await helper.blogsInDb()
+    const blogToModify = blogsAtDb[0]
+
+    await api
+      .put('/api/blogs/4')
+      .send(blogToModify)
+      .expect(404)
+
+    assert.deepStrictEqual(blogToModify, blogsAtDb[0])
+
+  })
+
 })
 
 

@@ -40,10 +40,15 @@ blogsRouter.delete('/:id', async (request, response) => {
 blogsRouter.put('/:id', async (request, response) => {
   const { title, author, url, likes } = request.body
 
-  const toChange = await Blog.findById(request.params.id)
+  const blogs = await Blog.find({})
+  const ids = blogs.map(b => b.id)
 
-  if (!toChange)
+
+  if (!ids.includes(request.params.id))
     return response.status(404).end()
+
+
+  const toChange = await Blog.findById(request.params.id)
 
 
   if (title)
