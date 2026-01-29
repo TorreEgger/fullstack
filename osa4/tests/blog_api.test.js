@@ -75,7 +75,7 @@ describe('correct format-testing', () => {
   })
 })
 
-describe('incorrect data testing in post-method', () => {
+describe('incorrect/missing data testing in post-method', () => {
 
   test('likes will be set to zero if left empty', async () => {
 
