@@ -372,7 +372,7 @@ describe('when there is initially one user at db', () => {
   })
 
 
-  test.only('creation of a new user fails if password is too short', async () => {
+  test('creation of a new user fails if password is too short', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
@@ -392,6 +392,7 @@ describe('when there is initially one user at db', () => {
 
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
+
 
 })
 
