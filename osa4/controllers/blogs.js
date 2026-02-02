@@ -12,6 +12,8 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+
+/*
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
   if (authorization && authorization.startsWith('Bearer ')) {
@@ -19,10 +21,14 @@ const getTokenFrom = request => {
   }
   return null
 }
+  */
+
 
 
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn
 blogsRouter.post('/', async (request, response) => {
+
+  console.log(request.token, 'request')
 
 
   if (!Object.hasOwn(request.body, 'title') || (!Object.hasOwn(request.body, 'url')))
@@ -31,7 +37,7 @@ blogsRouter.post('/', async (request, response) => {
 
   const body = request.body
 
-  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
