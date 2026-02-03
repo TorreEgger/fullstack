@@ -33,21 +33,25 @@ const errorHandler = (error, request, response, next) => {
 
 }
 
+
 const tokenExtractor = (request, response, next) => {
 
-  //logger.info(request.headers.authorization, 'tässä?')
+  logger.info(request.headers.authorization, 'tässä?')
 
-  const authorization = request.headers.authorization
+  let authorization = request.headers.authorization
   if (authorization && authorization.startsWith('Bearer ')) {
-    authorization.replace('Bearer ', '')
+    authorization = authorization.replace('Bearer ', '')
     request.token = authorization
   }
+
+  logger.info(request.token, 'middlware token')
 
   //const expo = authorization.replace('Bearer ', '')
 
 
   next()
 }
+
 
 
 

@@ -1,6 +1,6 @@
 POST http://localhost:3001/api/notes
 Content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im3DpGtpIiwiaWQiOiI2OTc3YjJjMDdkNWVmZTE1ZGIyY2E4YmYiLCJpYXQiOjE3Njk1MjA4ODF9.P3vN4hdsbqqC6MC5DilycQwV-DlhJ8G-ZhyZbkiDolM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im3DpGtpIiwiaWQiOiI2OTc3YjJjMDdkNWVmZTE1ZGIyY2E4YmYiLCJpYXQiOjE3NzAxMjc4MDUsImV4cCI6MTc3MDEzMTQwNX0.QSyvxyF8rAQ0buJQNx-kLhNe-efsP0_U2W8htR-s8R8
 
 {
     "content": "Another check",
