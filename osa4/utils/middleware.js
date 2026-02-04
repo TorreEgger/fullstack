@@ -27,6 +27,8 @@ const errorHandler = (error, request, response, next) => {
     return response.status(401).json({
       error: 'token expired'
     })
+  } else if (error.name === 'SyntaxError') {
+    return response.status(400).json({ error: 'check your syntax' })
   }
 
   next(error)
@@ -43,7 +45,6 @@ const tokenExtractor = (request, response, next) => {
     authorization = authorization.replace('Bearer ', '')
     request.token = authorization
   }
-
   //logger.info(request.token, 'middlware token')
 
   //const expo = authorization.replace('Bearer ', '')
