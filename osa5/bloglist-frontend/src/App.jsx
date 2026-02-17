@@ -34,13 +34,8 @@ const App = () => {
 const addBlog = async event => {
   event.preventDefault()
 
-  const blogObject = {
-    title: title,
-    author: author,
-    url: url
-  }
 
-  const newBlog = await blogService.create({ blogObject })
+  const newBlog = await blogService.create({ title, author, url })
   setBlogs(blogs.concat(newBlog))
    setTitle('')
    setAuthor('')
