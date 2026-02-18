@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
-import Error from './components/Error'
+//import Error from './components/Error'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -49,7 +49,7 @@ const addBlog = async event => {
   setAuthor('')
   setUrl('')
   } catch {
-    setErrorMessage('title or url is missing, or both')
+    setErrorMessage('title or url is missing')
     setTimeout(() => {
       setErrorMessage(null)
     }, 3000)
@@ -168,7 +168,7 @@ const addBlog = async event => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Error message={errorMessage} /> <Notification message={notification} />
+        <Notification message={notification} errorMessage={errorMessage} />
         {loginForm()}
       </div>
     )
@@ -178,7 +178,7 @@ const addBlog = async event => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={notification} /> <Error message={errorMessage} />
+      <Notification message={notification} errorMessage={errorMessage} />
       <p>{user.name} logged in <button onClick={handleLogOut}>logout</button></p>
       <h2>create new</h2>
       {blogForm()}
