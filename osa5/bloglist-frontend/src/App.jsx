@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
+import Error from './components/Error'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -11,6 +13,8 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
 
 
   useEffect(() => {
@@ -34,14 +38,23 @@ const App = () => {
 const addBlog = async event => {
   event.preventDefault()
 
-
+  try {
   const newBlog = await blogService.create({ title, author, url })
   setBlogs(blogs.concat(newBlog))
-   setTitle('')
-   setAuthor('')
-   setUrl('')
+  setNotification(`a new blog ${title} by ${author} added`)
+  setTimeout(() => {
+    setNotification(null)
+  }, 3000)
+  setTitle('')
+  setAuthor('')
+  setUrl('')
+  } catch {
+    setErrorMessage('title or url is missing, or both')
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 3000)
+  }
 }
-
 
   const handlelogin = async event => {
     event.preventDefault()
@@ -51,18 +64,35 @@ const addBlog = async event => {
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
+      setNotification(`${user.name} logged in`)
+      setTimeout(() => {
+        setNotification(null)
+      }, 3000)
       setUsername('')
       setPassword('')
     } catch {
+      setErrorMessage('wrong username or password')
       console.log('error')
+      console.log(errorMessage)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
     }
   }
 
   const handleLogOut = async event => {
     event.preventDefault()
 
+    let nimi = user.name
     setUser(null)
     window.localStorage.removeItem('loggedBlogAppUser')
+    setNotification(`${nimi} logged out`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000)
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   const loginForm = () => (
@@ -138,6 +168,7 @@ const addBlog = async event => {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Error message={errorMessage} /> <Notification message={notification} />
         {loginForm()}
       </div>
     )
@@ -147,6 +178,7 @@ const addBlog = async event => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={notification} /> <Error message={errorMessage} />
       <p>{user.name} logged in <button onClick={handleLogOut}>logout</button></p>
       <h2>create new</h2>
       {blogForm()}
