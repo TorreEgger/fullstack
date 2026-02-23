@@ -83,6 +83,9 @@ const addBlog = async event => {
   const handleLogOut = async event => {
     event.preventDefault()
 
+
+
+    try {
     let nimi = user.name
     setUser(null)
     window.localStorage.removeItem('loggedBlogAppUser')
@@ -93,6 +96,13 @@ const addBlog = async event => {
     setTitle('')
     setAuthor('')
     setUrl('')
+    } catch {
+      setErrorMessage('logout did not work')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+    }
+
   }
 
   const loginForm = () => (
