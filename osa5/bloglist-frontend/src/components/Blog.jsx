@@ -10,19 +10,21 @@ const Blog = ({ blog }) => {
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
+    listStyle: 'none'
   }
 
+  //console.log(blog.user)
 
 
   if (view === false) {
 
-    console.log(view, 'false branch')
+    //console.log(view, 'false branch')
     return (
     <div style={blogStyle}>
        <li>{blog.title} {blog.author} <button onClick={() => setView(!view)}>hide</button></li>
        <li>{blog.url}</li>
-       <li>{blog.likes} <button>like</button></li>
+       <li>likes {blog.likes} <button>like</button></li>
        <li>{blog.user.name}</li>
     </div>
     )

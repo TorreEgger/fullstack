@@ -27,6 +27,7 @@ const App = () => {
     )  
   }, [])
 
+  console.log(blogs[2])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -38,6 +39,7 @@ const App = () => {
   }, [])
 
 
+  //console.log(blogs, 'from main')
 
 const addBlog = blogObject => {
   //event.preventDefault()
@@ -46,6 +48,7 @@ const addBlog = blogObject => {
 
   blogService.create(blogObject).then(returnedBlog => {
     setBlogs(blogs.concat(returnedBlog))
+    console.log(returnedBlog, 'returned blog')
     setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
     setTimeout(() => {
     setNotification(null)
