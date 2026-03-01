@@ -27,6 +27,8 @@ const App = () => {
     )  
   }, [])
 
+  
+
   //console.log(blogs[2])
 
   useEffect(() => {
@@ -38,6 +40,25 @@ const App = () => {
     }
   }, [])
 
+/*
+  function compareLikes(a, b) {
+    if (a.likes < b.likes) {
+      return 1
+    } else if (a.likes > b.likes) {
+      return -1
+    }
+    return 0
+  }
+  */
+
+  //const taulukko = blogs
+  //console.log(blogs.sort((a, b) => a.likes - b.likes))
+
+  blogs.sort((a, b) => b.likes - a.likes)
+
+
+
+  //console.log(blogs.sort((a, b) => a.likes - b.likes))
 
   //console.log(blogs, 'from main')
 
