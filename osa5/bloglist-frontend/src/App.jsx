@@ -27,7 +27,7 @@ const App = () => {
     )  
   }, [])
 
-  console.log(blogs[2])
+  //console.log(blogs[2])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -48,7 +48,7 @@ const addBlog = blogObject => {
 
   blogService.create(blogObject).then(returnedBlog => {
     setBlogs(blogs.concat(returnedBlog))
-    console.log(returnedBlog, 'returned blog')
+    //console.log(returnedBlog, 'returned blog')
     setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
     setTimeout(() => {
     setNotification(null)
@@ -62,6 +62,22 @@ const addBlog = blogObject => {
   })
   
 }
+
+
+const likeBlog = id => {
+  const blog = blogs.find(b => b.id === id)
+  const changedBlog = { ...blog, likes: blog.likes + 1}
+  //console.log(blog, 'liketettava blogi')
+  //console.log(changedBlog, 'liketetty')
+  blogService
+  .update(id, changedBlog)
+  .then(returnedBlog => {
+    //console.log(returnedBlog, 'muutettu')
+    setBlogs(blogs.map(blog => (blog.id !== id ? blog : returnedBlog)))
+  })
+}
+
+
 
   const handlelogin = async event => {
     event.preventDefault()
@@ -200,7 +216,7 @@ const addBlog = blogObject => {
         <BlogForm createBlog={addBlog} />
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
       )}
     </div>
   )

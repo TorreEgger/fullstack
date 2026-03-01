@@ -1,3 +1,4 @@
+//const logger = require('../utils/middleware')
 const Blog = require('../models/blog')
 const blogsRouter = require('express').Router()
 const { userExtractor } = require('../utils/middleware')
@@ -50,6 +51,9 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
 
 blogsRouter.put('/:id', async (request, response) => {
   const { title, author, url, likes } = request.body
+  //const user = request.user //uusi
+  //logger.info(request.body, 'request body')
+  //console.log(request.body, 'requestbody')
 
   const blog = await Blog.findById(request.params.id)
 
@@ -61,9 +65,14 @@ blogsRouter.put('/:id', async (request, response) => {
   blog.author = author
   blog.url = url
   blog.likes = likes
+  //blog.user = user //uusi
 
   const updatedBlog = await blog.save()
 
+  //console.log(updatedBlog, 'päivitetty')
+
+  await updatedBlog.populate('user', { username: 1, name: 1 })
+  //console.log(updatedBlog, 'päivitetty')
   response.json(updatedBlog)
 })
 
