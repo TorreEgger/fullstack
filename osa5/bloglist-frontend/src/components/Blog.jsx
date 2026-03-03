@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, likeBlog }) => {
+const Blog = ({ blog, likeBlog, remove, user }) => {
 
   const [view, setView] = useState(true)
 
@@ -14,10 +14,24 @@ const Blog = ({ blog, likeBlog }) => {
     listStyle: 'none'
   }
 
-  //console.log(blog.user)
+
+
+
+  const removeButton = () => {
+    if (user.name === blog.user.name) {
+    return <button onClick={() => remove(blog.id)}>remove</button>
+    }
+  }
+
+
+  //console.log(blog.user, 'blog')
+  //console.log(user.token, 'user')
 
 
   if (view === false) {
+    //console.log(user, 'backend')
+    //console.log(blog, 'blogi')
+    //console.log(window.localStorage.getItem('loggedBlogAppUser'))
 
     //console.log(view, 'false branch')
     return (
@@ -26,6 +40,7 @@ const Blog = ({ blog, likeBlog }) => {
        <li>{blog.url}</li>
        <li>likes {blog.likes} <button onClick={() => likeBlog(blog.id)}>like</button></li>
        <li>{blog.user.name}</li>
+       <li>{removeButton()}</li>
     </div>
     )
   }

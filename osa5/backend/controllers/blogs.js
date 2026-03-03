@@ -13,6 +13,7 @@ blogsRouter.get('/', (request, response) => {
 
 blogsRouter.post('/', userExtractor, async (request, response) => {
   const user = request.user
+  console.log(user, 'router')
   const blog = new Blog(request.body)
 
   blog.likes = blog.likes | 0
@@ -32,12 +33,15 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
 })
 
 blogsRouter.delete('/:id', userExtractor, async (request, response) => {
+  //console.log(user)
   const user = request.user
   const blog = await Blog.findById(request.params.id)
 
   if (!blog) {
     return response.status(204).end()
   }
+
+  console.log(blog)
 
   if (user.id.toString() !== blog.user.toString()) {
     return response.status(403).json({ error: 'user not authorized' })

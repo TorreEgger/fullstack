@@ -6,6 +6,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
+//import blog from '../../backend/models/blog'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -17,6 +18,7 @@ const App = () => {
   //const [url, setUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [notification, setNotification] = useState(null)
+  //console.log(JSON.parse(window.localStorage.getItem('loggedBlogAppUser'), 'loggedin'))
 
   const noteFormRef = useRef()
 
@@ -28,7 +30,6 @@ const App = () => {
   }, [])
 
   
-
   //console.log(blogs[2])
 
   useEffect(() => {
@@ -40,63 +41,68 @@ const App = () => {
     }
   }, [])
 
-/*
-  function compareLikes(a, b) {
-    if (a.likes < b.likes) {
-      return 1
-    } else if (a.likes > b.likes) {
-      return -1
-    }
-    return 0
-  }
-  */
-
-  //const taulukko = blogs
-  //console.log(blogs.sort((a, b) => a.likes - b.likes))
-
-  blogs.sort((a, b) => b.likes - a.likes)
+  //console.log(user.token)
 
 
+blogs.sort((a, b) => b.likes - a.likes)
 
-  //console.log(blogs.sort((a, b) => a.likes - b.likes))
-
-  //console.log(blogs, 'from main')
-
-const addBlog = blogObject => {
+const addBlog = async blogObject => {
   //event.preventDefault()
-
   noteFormRef.current.toggleVisibility()
 
-  blogService.create(blogObject).then(returnedBlog => {
-    setBlogs(blogs.concat(returnedBlog))
-    //console.log(returnedBlog, 'returned blog')
+  try {
+    const newBlog = await blogService.create(blogObject)
+    setBlogs(blogs.concat(newBlog))
     setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
     setTimeout(() => {
     setNotification(null)
   }, 3000)
-  })
-  .catch(() => {
+  } catch {
     setErrorMessage('title or url is missing')
     setTimeout(() => {
       setErrorMessage(null)
-    }, 3000)
-  })
-  
+    }, 3000) 
+  }
 }
 
 
-const likeBlog = id => {
+const likeBlog = async id => {
   const blog = blogs.find(b => b.id === id)
   const changedBlog = { ...blog, likes: blog.likes + 1}
-  //console.log(blog, 'liketettava blogi')
-  //console.log(changedBlog, 'liketetty')
-  blogService
-  .update(id, changedBlog)
-  .then(returnedBlog => {
-    //console.log(returnedBlog, 'muutettu')
-    setBlogs(blogs.map(blog => (blog.id !== id ? blog : returnedBlog)))
-  })
+  try {
+    const likeCHange = await blogService.update(id, changedBlog)
+    setBlogs(blogs.map(blog => (blog.id !== id ? blog : likeCHange)))
+  } catch {
+    setErrorMessage('error happened while liking')
+    setTimeout(() => {
+    setErrorMessage(null)
+    }, 3000)  
+  }
+
 }
+
+//täytyy poistaa tokenin avulla?
+const remove = async id => {
+  const blog = (blogs.find(blog => blog.id === id))
+  console.log(id)
+  console.log(blog)
+  if (confirm(`Remove ${blog.title} by ${blog.author}`))
+    try {
+      await blogService.remove(id)
+      setNotification(`Blog "${blog.title}" removed`)
+      setBlogs(blogs.filter(x => x.id !== id))
+      setTimeout(() => {
+      setNotification(null)
+      }, 3000)    
+  } catch {
+      setErrorMessage('failed')
+      setTimeout(() => {
+      setErrorMessage(null)
+      }, 3000)  
+  }
+
+}
+
 
 
 
@@ -124,9 +130,9 @@ const likeBlog = id => {
     }
   }
 
+
   const handleLogOut = async event => {
     event.preventDefault()
-
 
 
     try {
@@ -173,49 +179,6 @@ const likeBlog = id => {
   )
 
 
-  /*
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <div>
-        <label>
-          title: 
-          <input
-            type="text"
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          author:
-          <input
-            type="text"
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          url:
-          <input
-            type="text"
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </label>
-      </div>
-      <button type="submit">create</button>
-    </form>
-  )
-
-  */
-
-
-
-
-
 
   if (user === null) {
     return (
@@ -237,7 +200,7 @@ const likeBlog = id => {
         <BlogForm createBlog={addBlog} />
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
+        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} remove={remove} user={user} />
       )}
     </div>
   )
