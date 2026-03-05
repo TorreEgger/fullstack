@@ -26,10 +26,10 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
-  
+
   //console.log(blogs[2])
 
   useEffect(() => {
@@ -44,72 +44,72 @@ const App = () => {
   //console.log(user.token)
 
 
-blogs.sort((a, b) => b.likes - a.likes)
+  blogs.sort((a, b) => b.likes - a.likes)
 
-const addBlog = async blogObject => {
+  const addBlog = async blogObject => {
   //event.preventDefault()
-  noteFormRef.current.toggleVisibility()
+    noteFormRef.current.toggleVisibility()
 
-  try {
-    const newBlog = await blogService.create(blogObject)
-    setBlogs(blogs.concat(newBlog))
-    setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
-    setTimeout(() => {
-    setNotification(null)
-  }, 3000)
-  } catch {
-    setErrorMessage('title or url is missing')
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 3000) 
-  }
-}
-
-console.log(user)
-
-const likeBlog = async id => {
-  const blog = blogs.find(b => b.id === id)
-  const changedBlog = { ...blog, likes: blog.likes + 1}
-  try {
-    const likeCHange = await blogService.update(id, changedBlog)
-    setBlogs(blogs.map(blog => (blog.id !== id ? blog : likeCHange)))
-  } catch {
-    setErrorMessage('error happened while liking')
-    setTimeout(() => {
-    setErrorMessage(null)
-    }, 3000)  
-  }
-
-}
-
-//user id should be found
-const remove = async id => {
-  const blog = (blogs.find(blog => blog.id === id))
-  console.log(id)
-  console.log(blog)
-  if (confirm(`Remove ${blog.title} by ${blog.author}`))
     try {
-      await blogService.remove(id)
-      setNotification(`Blog "${blog.title}" removed`)
-      setBlogs(blogs.filter(x => x.id !== id))
+      const newBlog = await blogService.create(blogObject)
+      setBlogs(blogs.concat(newBlog))
+      setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`)
       setTimeout(() => {
-      setNotification(null)
-      }, 3000)    
-  } catch {
-      setErrorMessage('failed')
+        setNotification(null)
+      }, 3000)
+    } catch {
+      setErrorMessage('title or url is missing')
       setTimeout(() => {
-      setErrorMessage(null)
-      }, 3000)  
+        setErrorMessage(null)
+      }, 3000)
+    }
   }
 
-}
+  console.log(user)
+
+  const likeBlog = async id => {
+    const blog = blogs.find(b => b.id === id)
+    const changedBlog = { ...blog, likes: blog.likes + 1 }
+    try {
+      const likeCHange = await blogService.update(id, changedBlog)
+      setBlogs(blogs.map(blog => (blog.id !== id ? blog : likeCHange)))
+    } catch {
+      setErrorMessage('error happened while liking')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+    }
+
+  }
+
+  //user id should be found
+  const remove = async id => {
+    const blog = (blogs.find(blog => blog.id === id))
+    console.log(id)
+    console.log(blog)
+    if (confirm(`Remove ${blog.title} by ${blog.author}`))
+      try {
+        await blogService.remove(id)
+        setNotification(`Blog "${blog.title}" removed`)
+        setBlogs(blogs.filter(x => x.id !== id))
+        setTimeout(() => {
+          setNotification(null)
+        }, 3000)
+      } catch {
+        setErrorMessage('failed')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 3000)
+      }
+
+  }
 
 
 
 
   const handlelogin = async event => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
@@ -138,13 +138,13 @@ const remove = async id => {
 
 
     try {
-    let nimi = user.name
-    setUser(null)
-    window.localStorage.removeItem('loggedBlogAppUser')
-    setNotification(`${nimi} logged out`)
-    setTimeout(() => {
-      setNotification(null)
-    }, 3000)
+      let nimi = user.name
+      setUser(null)
+      window.localStorage.removeItem('loggedBlogAppUser')
+      setNotification(`${nimi} logged out`)
+      setTimeout(() => {
+        setNotification(null)
+      }, 3000)
     } catch {
       setErrorMessage('logout did not work')
       setTimeout(() => {
@@ -156,27 +156,27 @@ const remove = async id => {
 
   const loginForm = () => (
     <form onSubmit={handlelogin}>
-        <div>
-          <label>
+      <div>
+        <label>
             username
-            <input
-              type="text"
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
+          <input
+            type="text"
+            value={username}
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
             password
-            <input
-              type="password"
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </label>
-        </div>
-        <button type="submit">login</button>
+          <input
+            type="password"
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </label>
+      </div>
+      <button type="submit">login</button>
     </form>
   )
 

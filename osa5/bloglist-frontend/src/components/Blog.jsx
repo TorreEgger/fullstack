@@ -19,7 +19,7 @@ const Blog = ({ blog, likeBlog, remove, user }) => {
 
   const removeButton = () => {
     if (user.id === blog.user.id) {
-    return <button onClick={() => remove(blog.id)}>remove</button>
+      return <button onClick={() => remove(blog.id)}>remove</button>
     }
   }
 
@@ -35,20 +35,20 @@ const Blog = ({ blog, likeBlog, remove, user }) => {
 
     //console.log(view, 'false branch')
     return (
-    <div style={blogStyle}>
-       <li>{blog.title} {blog.author} <button onClick={() => setView(!view)}>hide</button></li>
-       <li>{blog.url}</li>
-       <li>likes {blog.likes} <button onClick={() => likeBlog(blog.id)}>like</button></li>
-       <li>{blog.user.name}</li>
-       <li>{removeButton()}</li>
-    </div>
+      <div style={blogStyle}>
+        <li>{blog.title} {blog.author} <button onClick={() => setView(!view)}>hide</button></li>
+        <li>{blog.url}</li>
+        <li>likes {blog.likes} <button onClick={() => likeBlog(blog.id)}>like</button></li>
+        <li>{blog.user.name}</li>
+        <li>{removeButton()}</li>
+      </div>
     )
   }
 
 
-   return (
+  return (
     <div style={blogStyle}>
-      <div> 
+      <div>
         {blog.title} {blog.author} <button onClick={() => setView(!view)}>view</button>
       </div>
     </div>
