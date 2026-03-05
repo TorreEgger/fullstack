@@ -13,7 +13,7 @@ blogsRouter.get('/', (request, response) => {
 
 blogsRouter.post('/', userExtractor, async (request, response) => {
   const user = request.user
-  console.log(user, 'router')
+  //console.log(user, 'router')
   const blog = new Blog(request.body)
 
   blog.likes = blog.likes | 0

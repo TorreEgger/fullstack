@@ -65,6 +65,7 @@ const addBlog = async blogObject => {
   }
 }
 
+console.log(user)
 
 const likeBlog = async id => {
   const blog = blogs.find(b => b.id === id)
@@ -81,7 +82,7 @@ const likeBlog = async id => {
 
 }
 
-//täytyy poistaa tokenin avulla?
+//user id should be found
 const remove = async id => {
   const blog = (blogs.find(blog => blog.id === id))
   console.log(id)
@@ -114,6 +115,7 @@ const remove = async id => {
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
+      //console.log(user)
       setNotification(`${user.name} logged in`)
       setTimeout(() => {
         setNotification(null)
