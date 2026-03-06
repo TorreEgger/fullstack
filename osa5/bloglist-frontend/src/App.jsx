@@ -65,13 +65,15 @@ const App = () => {
     }
   }
 
-  console.log(user)
+  //console.log(user)
 
   const likeBlog = async id => {
     const blog = blogs.find(b => b.id === id)
     const changedBlog = { ...blog, likes: blog.likes + 1 }
+    //console.log(changedBlog, 'changedBlog')
     try {
       const likeCHange = await blogService.update(id, changedBlog)
+      //console.log(likeCHange, 'muutettu')
       setBlogs(blogs.map(blog => (blog.id !== id ? blog : likeCHange)))
     } catch {
       setErrorMessage('error happened while liking')

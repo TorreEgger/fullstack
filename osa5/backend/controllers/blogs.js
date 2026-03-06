@@ -73,9 +73,12 @@ blogsRouter.put('/:id', async (request, response) => {
 
   const updatedBlog = await blog.save()
 
-  //console.log(updatedBlog, 'päivitetty')
+  console.log(blog)
+
+  //console.log(request, 'request')
 
   await updatedBlog.populate('user', { username: 1, name: 1 })
+  //console.log(response)
   //console.log(updatedBlog, 'päivitetty')
   response.json(updatedBlog)
 })

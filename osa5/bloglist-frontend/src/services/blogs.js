@@ -18,13 +18,14 @@ const create = async newObject => {
   }
 
   const response = await axios.post(baseUrl, newObject, config)
-  console.log(response)
+  //console.log(response)
   return response.data
 }
 
 
 const update = async (id, newObject) => {
   const response = await axios.put(`${baseUrl}/${id}`, newObject)
+  //console.log(newObject)
   //console.log(response, 'response')
   return response.data
 }
