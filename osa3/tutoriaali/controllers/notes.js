@@ -70,6 +70,7 @@ notesRouter.put('/:id', (request, response, next) => {
 
       note.content = content
       note.important = important
+      console.log(note, 'note')
 
       return note.save().then((updatedNote) => {
         response.json(updatedNote)

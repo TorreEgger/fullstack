@@ -69,11 +69,13 @@ const App = () => {
 
   const likeBlog = async id => {
     const blog = blogs.find(b => b.id === id)
-    const changedBlog = { ...blog, likes: blog.likes + 1 }
-    //console.log(changedBlog, 'changedBlog')
+    const changedBlog = {  user: blog.user.id, likes: blog.likes + 1, author: blog.author, title: blog.title, url: blog.url }
+    //luin discorista miten muut oli tätä tehnyt ja promptasin tekoälyä, ja kysyin kaverilta apua. nyt pitäisi toimia
+    //oli haasteita saada se toivotunlaiseksi, koska A: pyydettiin lähettämään kaikki kentät
+    // ja B: esimerkkikuvassa ei kuitenkaan toivottu, että kaikkia kenttiä olisi mukana: (blog.id, user.name, user.username)
     try {
       const likeCHange = await blogService.update(id, changedBlog)
-      //console.log(likeCHange, 'muutettu')
+      //console.log(likeCHange, 'changed')
       setBlogs(blogs.map(blog => (blog.id !== id ? blog : likeCHange)))
     } catch {
       setErrorMessage('error happened while liking')
