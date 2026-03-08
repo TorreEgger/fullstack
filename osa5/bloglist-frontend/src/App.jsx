@@ -73,6 +73,8 @@ const App = () => {
     //luin discorista miten muut oli tätä tehnyt ja promptasin tekoälyä, ja kysyin kaverilta apua. nyt pitäisi toimia
     //oli haasteita saada se toivotunlaiseksi, koska A: pyydettiin lähettämään kaikki kentät
     // ja B: esimerkkikuvassa ei kuitenkaan toivottu, että kaikkia kenttiä olisi mukana: (blog.id, user.name, user.username)
+    // kukaan ei forumin sivulla vastannut minun hämmenykseeni asiaan liittyen
+    // alkuperäinen ratkaisu siis toimi, mutta tämä on kaiketi eheämpi vastaus ja halutunlainen
     try {
       const likeCHange = await blogService.update(id, changedBlog)
       //console.log(likeCHange, 'changed')

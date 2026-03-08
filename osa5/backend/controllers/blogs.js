@@ -53,8 +53,9 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
   response.status(204).end()
 })
 
+
 blogsRouter.put('/:id', async (request, response) => {
-  const { title, author, url, likes } = request.body
+  const { title, author, url, likes, user } = request.body
   //const user = request.user //uusi
   //logger.info(request.body, 'request body')
   //console.log(request.body, 'requestbody')
@@ -69,6 +70,13 @@ blogsRouter.put('/:id', async (request, response) => {
   blog.author = author
   blog.url = url
   blog.likes = likes
+  blog.user = user // foorumilta ja tekoäly-malleilta opittua, put-metodissa pitää siis kaikkia kentät muuttaa/päivittää
+  // mutta tehtävänanto oli mielestäni sekava. aluksi pyydettiin lähettämään kaikki kentät, mutta sitten blogin id ja userin kaksi muuta kenttää (name, username)
+  // ei kuitenkaan sisällytetty esimerkki-dataan
+  // minullahan toimi jo alkuperäinenkin ratkaisu, mutta nämä lisäykset varmaankin tekevät vastauksesta eheämmän
+  
+
+  //console.log(user)
 
   const updatedBlog = await blog.save()
   console.log(blog, 'blog')
