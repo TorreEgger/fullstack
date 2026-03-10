@@ -96,3 +96,46 @@ test('if view-button is pressed, every field is shown', async () => {
   expect(element3).toBeDefined()
 
 })
+
+
+test('like-function is called twice if button is pressed twice', async () => {
+  const blog = {
+    title: 'tennis is fun',
+    author: 'Ben Caldwell',
+    url: 'https://athletebase',
+    likes: 22,
+    user: {
+      username: 'rudolf',
+      name: 'rudolf hanska',
+      id: '6994284305971abb49d1dfdr'
+    }
+  }
+
+  const user = {
+    user: {
+      username: 'rudolf',
+      name: 'rudolf hanska',
+      id: '6994284305971abb49d1dfdr'
+    }
+  }
+
+  const mockHandler = vi.fn()
+
+
+
+
+  render(<Blog blog={blog} user={user.user} likeBlog={mockHandler} />)
+
+
+  const kayttaja = userEvent.setup()
+  const button = screen.getByText('view')
+  await kayttaja.click(button)
+
+
+  const likeButton = screen.getByText('like')
+  await kayttaja.click(likeButton)
+  await kayttaja.click(likeButton)
+  expect(mockHandler.mock.calls).toHaveLength(2)
+
+
+})
