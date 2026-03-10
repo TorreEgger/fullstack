@@ -74,6 +74,8 @@ blogsRouter.put('/:id', async (request, response) => {
   // mutta tehtävänanto oli mielestäni sekava. aluksi pyydettiin lähettämään kaikki kentät, mutta sitten blogin id ja userin kaksi muuta kenttää (name, username)
   // ei kuitenkaan sisällytetty esimerkki-dataan
   // minullahan toimi jo alkuperäinenkin ratkaisu, mutta nämä lisäykset varmaankin tekevät vastauksesta eheämmän
+
+  //olen myöskin ymmärtänyt, että pienet eroavaisuudet eivät haittaa, joten omatoiminen tehtävän parantaminen ei varmaankaan ole ongelma
   
 
   //console.log(user)
