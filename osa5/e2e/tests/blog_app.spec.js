@@ -1,5 +1,5 @@
 const { test, expect, beforeEach, describe } = require('@playwright/test')
-const { loginWith } = require('./helper')
+const { loginWith, createBlog } = require('./helper')
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -51,12 +51,15 @@ describe('Blog app', () => {
   })
 
   describe('When logged in', () => {
-  beforeEach(async ({ page }) => {
-    await loginWith(page, 'mluukkai', 'salainen')
-  })
+    beforeEach(async ({ page }) => {
+      await loginWith(page, 'mluukkai', 'salainen')
+      //await page.pause()
+    })
 
-  test('a new blog can be created', async ({ page }) => {
-    
+    //5.19
+    test('a new blog can be created', async ({ page }) => {
+     await createBlog(page, 'how to play yasuo', 'alois', 'https://lolchampions.com')
+     await expect(page.getByText('how to play yasuo alois')).toBeVisible()
+    })
   })
-})
 })
