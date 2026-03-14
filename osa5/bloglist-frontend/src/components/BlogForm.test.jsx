@@ -11,9 +11,9 @@ test('form calls the function it receives with the right data', async () => {
   render(<BlogForm createBlog={createBlog} />)
 
 
-  const title = screen.getByPlaceholderText('title')
-  const author = screen.getByPlaceholderText('author')
-  const url = screen.getByPlaceholderText('url')
+  const title = screen.getByLabelText('title:')
+  const author = screen.getByLabelText('author:')
+  const url = screen.getByLabelText('url:')
 
   const createButton = screen.getByText('create')
 
