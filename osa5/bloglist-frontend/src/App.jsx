@@ -129,7 +129,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch {
-      setErrorMessage('wrong username or password')
+      setErrorMessage('wrong credentials')
       console.log('error')
       console.log(errorMessage)
       setTimeout(() => {
@@ -161,7 +161,7 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <form onSubmit={handlelogin} placeholder="form" >
+    <form onSubmit={handlelogin} >
       <div>
         <label>
             username
