@@ -61,5 +61,24 @@ describe('Blog app', () => {
      await createBlog(page, 'how to play yasuo', 'alois', 'https://lolchampions.com')
      await expect(page.getByText('how to play yasuo alois')).toBeVisible()
     })
+
+    //5.20
+    test('a blog can be liked', async ({ page }) => {
+      await createBlog(page, 'how to play yasuo', 'alois', 'https://lolchampions.com')
+      await createBlog(page, 'how to play drmundo', 'alois', 'https://lolchampions.com')
+      const blogText = page.getByText('how to play yasuo alois')
+      const likesText = page.getByText('likes')
+      await blogText.getByRole('button', { name: 'view'}).click()
+      await likesText.getByRole('button', { name: 'like'}).click()
+      await expect(likesText.getByText('likes 1')).toBeVisible()
+    })
+
+    test('a blog can be deleted', async ({ page }) => {
+      await createBlog(page, 'how to play yasuo', 'alois', 'https://lolchampions.com')
+      await createBlog(page, 'how to play drmundo', 'alois', 'https://lolchampions.com')
+      const blogText = page.getByText('how to play yasuo alois')
+      await blogText.getByRole('button', { name: 'view'}).click()
+      await page.getByTestId('remove').click()
+    })
   })
 })
